@@ -21,6 +21,7 @@
         {% endif %}
 
         <p>{{ site.description | default: site.github.project_tagline }}</p>
+        
         <ol type="1">
          <li>Installing Required Python Packages on HPC</li>
          <li>Setting up MongoDB and Connecting to Your Launchpad</li>
@@ -28,6 +29,7 @@
          <li>Advanced Setups</li>
          <li>Setting up the WebGUI</li>
         </ol>    
+        
         {% if site.github.is_project_page %}
         <p class="view"><a href="{{ site.github.repository_url }}">View the Project on GitHub <small>{{ site.github.repository_nwo }}</small></a></p>
         {% endif %}
