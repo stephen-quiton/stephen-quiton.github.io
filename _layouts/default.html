@@ -11,6 +11,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
   </head>
+  <style>
+    p.firstpar {
+      margin-top: 0;
+      text-indent: 0em;
+      padding: 0 5px 0 5px;
+    }
+    p.nextpar {
+      margin-top: -1em;
+      text-indent: 0em;
+      padding: 0 5px 0 5px;
+    }
+    p.small {
+      line-height: 0.7;
+    }
+
+  </style>
   <body>
     <div class="wrapper">
       <header>
@@ -31,18 +47,13 @@
          <li>Setting up the WebGUI</li>
         </ol>    
         -->
-        
 
-        <p>
-         1)Installing Required Python Packages on HPC
-         
-         2)Setting up MongoDB and Connecting to Your Launchpad
-         
-         3)Running your first workflow!
-         
-         4)Advanced Setups
-         
-         5)Setting up the WebGUI
+        <p class="small">
+         1)Installing Required Python Packages on HPC<br> 
+         2)Setting up MongoDB and Connecting to Your Launchpad<br>
+         3)Running your first workflow!<br>
+         4)Advanced Setups<br>
+         5)Setting up the WebGUI<br>
         </p>
           
         {% if site.github.is_project_page %}
