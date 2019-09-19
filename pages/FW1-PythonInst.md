@@ -68,5 +68,3 @@ If it returns an empty array (which it should because we haven't added any workf
 
 
 [Home](../)|[Next](./FW3-Running-Workflow.html)
-
-***
