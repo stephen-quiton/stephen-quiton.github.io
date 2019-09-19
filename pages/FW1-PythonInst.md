@@ -8,7 +8,7 @@ layout: default
 
 ### FireWorks
 
-Installing python packages on HPC is [not necessarily the same](https://hpcc.usc.edu/support/documentation/python/) as if you were to do the same with your own machine. This is because the command `pip` usually goes to a directory guarded by sudo permissions, which we don't have. Thus, the commands we need to use is: 
+Installing python packages on HPC is [not necessarily the same](https://hpcc.usc.edu/support/documentation/python/) as if you were to do the same with your own machine. This is because the command `pip` usually goes to a directory guarded by sudo permissions, which we don't have. Thus, the commands we need to use are: 
 
 ```
 source /usr/usc/python/3.6.0/setup.sh
