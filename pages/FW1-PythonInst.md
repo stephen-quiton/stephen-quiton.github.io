@@ -23,7 +23,7 @@ To test if FireWorks is installed correctly, restart your terminal and run the c
 
 FireWorks can be used with any remote database, but the one that has worked most reliable for me thus far is [MongoDB Atlas](https://www.mongodb.com/cloud/atlas). Make an account there and select the free options and using any platform (I'm using Azure). 
 
-When you setting it up, you should have come across the list of IPs to whitelist (click on "Network Access" on the sidebar). For now, the only IP address we want to add is HPC's login node, which you can do by adding `10.125.0.0/0`. As a last resort, if you later come to connection problems, you can allow access from all IPs, but this is generally not recommended because at that point, your database can be modified from anywhere. 
+When you setting it up, you should have come across the list of IPs to whitelist (click on "Network Access" on the sidebar). For now, the only IP address we want to add is HPC's login node, which you can do by adding `10.125.0.0/0`. As a last resort, if you later come to connection problems, you can allow access from all IPs (add `0.0.0.0/0`), but this is generally not recommended because at that point, your database can be modified from anywhere. 
 
 Something else you may have come across is creating user-password combo to access the database ("Database Access" on the sidebar). You only need one, and make sure its user privileges is set to "Atlas admin." 
 
@@ -35,10 +35,36 @@ cluster0-shard-00-0x-abcdef.azure.mongodb.net:27017
 
 The `x` could be any number depending on which one was selected as primary. Everything before the colon is the hostname, and the 5-digit to the right is the port. Keep this info handy later on. 
 
+Also keep in mind that the primary cluster changes once in a while, so make sure that when you're doing a task that involves connecting to the launchpad that you're connecting to the _primary_ cluster.
+
 
 ### Test your connection
 Head back to the HPC terminal and create a file called `my_launchpad.yaml`. Put the following in it:
 
+```
+authsource: admin
+host: cluster0-shard-00-0x-abcdef.azure.mongodb.net
+logdir: null
+name: mongo-username
+password: mongo-password
+port: 27017
+ssl: true
+ssl_ca_certs: null
+ssl_certfile: null
+ssl_keyfile: null
+ssl_pem_passphrase: null
+strm_lvl: INFO
+user_indices: []
+username: quiton
+wf_user_indices: []
+```
+
+Then do the following command in the same directory:
+
+```
+lpad -l my_launchpad.yaml get_wflows
+```
+If it returns an empty array (which it should because we haven't added any workflows) rather than returning an error, then your connection is working.
 
 
 [Home](../)|[Next](./FW3-Running-Workflow.html)
