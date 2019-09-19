@@ -4,12 +4,12 @@ layout: default
 
 ## Running your First Workflow
 
-[Home](../) | [Next](./FW4-Advanced-Setups.html)
+[Previous](./FW1-PythonInst.html)| [Home](../) | [Next](./FW4-Advanced-Setups.html)
 
 The FireWorks tutorial has several ways of adding a workflow to the database and also several ways to run it (for instance: `rlaunch singleshot`, `qlaunch singleshot`, etc.). Since we want to eventually run a lot of jobs at once, let's stick to `qlaunch rapidfire`
 
 ### Dealing with FireWorks in Offline Mode
 
+ 
+[Previous](./FW1-PythonInst.html) | [Home](../) | [Next](./FW4-Advanced-Setups.html)
 
-
-[Home](../) | [Next](./FW4-Advanced-Setups.html)
