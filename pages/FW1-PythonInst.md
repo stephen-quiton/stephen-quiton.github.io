@@ -45,7 +45,7 @@ Head back to the HPC terminal and create a file called `my_launchpad.yaml`. Put 
 authsource: admin
 host: cluster0-shard-00-0x-abcdef.azure.mongodb.net
 logdir: null
-name: mongo-username
+name: put-any-name
 password: mongo-password
 port: 27017
 ssl: true
@@ -55,7 +55,7 @@ ssl_keyfile: null
 ssl_pem_passphrase: null
 strm_lvl: INFO
 user_indices: []
-username: quiton
+username: mongo-username
 wf_user_indices: []
 ```
 
