@@ -4,7 +4,7 @@ layout: default
 
 ## Installing FireWorks and Setting up MongoDB
 
-[Home](../)|[Next](./FW3-Running-Workflow.html)
+[Home](../) | [Next](./FW3-Running-Workflow.html)
 
 ### FireWorks
 
@@ -66,7 +66,4 @@ lpad -l my_launchpad.yaml get_wflows
 ```
 If it returns an empty array (which it should because we haven't added any workflows) rather than returning an error, then your connection is working.
 
-
-<button name="button" onclick="http://www.google.com">Click me</button>
-
-[Home](../)|[Next](./FW3-Running-Workflow.html)
+[Home](../) | [Next](./FW3-Running-Workflow.html)
