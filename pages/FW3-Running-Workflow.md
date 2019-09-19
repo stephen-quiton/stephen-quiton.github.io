@@ -2,8 +2,11 @@
 layout: default
 ---
 
-## Welcome to another page
+## Running your First Workflow
 
+[Home](../) | [Next](./FW3-Running-Workflow.html)
+
+### FireWorks
 _yay_
 
 [back](../)
