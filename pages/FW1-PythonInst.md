@@ -21,7 +21,7 @@ To test if FireWorks is installed correctly, restart your terminal and run the c
 
 ### MongoDB
 
-FireWorks can be used with any remote database, but the one that has worked most reliable for me thus far is [MongoDB Atlas](https://www.mongodb.com/cloud/atlas). Make an account there and select the free options and using any platform (I'm using Azure). 
+FireWorks can be used with any remote database, but the one that has worked most reliably for me thus far is [MongoDB Atlas](https://www.mongodb.com/cloud/atlas). Make an account there and select the free options and using any platform (I'm using Azure). 
 
 When you setting it up, you should have come across the list of IPs to whitelist (click on "Network Access" on the sidebar). For now, the only IP address we want to add is HPC's login node, which you can do by adding `10.125.0.0/0`. As a last resort, if you later come to connection problems, you can allow access from all IPs (add `0.0.0.0/0`), but this is generally not recommended because at that point, your database can be modified from anywhere. 
 
@@ -35,7 +35,7 @@ cluster0-shard-00-0x-abcdef.azure.mongodb.net:27017
 
 The `x` could be any number depending on which one was selected as primary. Everything before the colon is the hostname, and the 5-digit to the right is the port. Keep this info handy later on. 
 
-Also keep in mind that the primary cluster changes once in a while, so make sure that when you're doing a task that involves connecting to the launchpad that you're connecting to the _primary_ cluster.
+Also keep in mind that the primary cluster changes once in a while, so make sure that when you're doing a task that involves connecting to the launchpad that you're connecting to the _primary_ cluster. If you don't you may get a python exception called "Not_master" or something to that effect.
 
 
 ### Test your connection
