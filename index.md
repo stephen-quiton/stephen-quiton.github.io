@@ -13,4 +13,4 @@ This website is very much a WIP, so if you catch anything that might be a mistak
 
 With that out of the way, [lets get started!](./pages/FW1-PythonInst.html) Or you can use the sidebar at the left for a specific page.
 
-[Next](./FW1-PythonInst.html)
+[Next](.pages/FW1-PythonInst.html)
