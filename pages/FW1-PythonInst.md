@@ -59,7 +59,7 @@ username: mongo-username
 wf_user_indices: []
 ```
 
-Then do the following command in the same directory:
+Replace the appropriate values (host, name, username, password)as necessary for your case. Then do the following command in the same directory:
 
 ```
 lpad -l my_launchpad.yaml get_wflows
