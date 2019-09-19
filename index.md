@@ -11,7 +11,7 @@ Arguably, you could go through the FireWorks tutorial for installation, but ther
 
 This website is very much a WIP, so if you catch anything that might be a mistake or anything that you'd feel would be helpful to include, do not hesitate to contact me at quiton[at]usc.edu. This website is also hosted on Github pages, so feel free to fork it and create a page that you think would be helpful. 
 
-With that out of the way, [lets get started!](./pages/FW1-PythonInst.html)
+With that out of the way, [lets get started!](./pages/FW1-PythonInst.html) Or you can use the sidebar at the left for a specific page.
 
 * * *
 
