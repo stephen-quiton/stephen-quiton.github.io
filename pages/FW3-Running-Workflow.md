@@ -16,7 +16,7 @@ This file contains all the necessary information for your FireWorks installation
 
 If you have already created this file from the [previous page](./FW1-PythonInst.html) and have it in the directory already, then you're good to go. In case you haven't, you can copy paste from below and replace the information with your own:
 
-```YAML
+```yaml
 authsource: admin
 host: cluster0-shard-00-0x-abcdef.azure.mongodb.net
 logdir: null
@@ -38,7 +38,7 @@ wf_user_indices: []
 
 This file is used so that FireWorks can write to the launchpad the user that launched the particular firework. Its contents are very short:
 
-```YAML
+```yaml
 name: Put-any-name
 category: ''
 query: '{}'
@@ -120,7 +120,7 @@ Take notice of the `rocket_launch` line where you'll have to specify the _absolu
 #### QChem Input 
 Finally, you'll need your actual QChem input file. For the sake of speed, let's do a single point of methane:
 
-```
+```QChem
 $molecule
 0 1
 C    0.00000    0.00000   -0.00000
