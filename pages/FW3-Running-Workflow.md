@@ -9,7 +9,13 @@ layout: default
 Now that we have set-up FireWorks on HPC and have a working connection to our 'launchpad' hosted on MongoDB, we can now prepare to launch our first workflow. In order to do so, however, we need to create some files. These can all be found on the main FireWorks tutorial, but I've adjusted them for our case.
 
 ### Required files
-Open up to an empty directory (or the same one your `my_launchpad.yaml` is located). Create the following .yaml files:
+Open up to an empty directory (or the same one your `my_launchpad.yaml` is located). By the end of this, we should have the following.
+
+1. my_launchpad.yaml
+2. my_fworker.yaml
+3. my_qadapter.yaml
+3. SLURM_Template.txt
+
 
 #### my_launchpad.yaml
 This file contains all the necessary information for your FireWorks installation to connect to your launchpad via `lpad` (used to query your database for existing workflows and other tasks) , `qlaunch` (launch fireworks to a queueing system, like SLURM, in succession), etc. We'll get to use these commands later on. 
@@ -49,7 +55,7 @@ query: '{}'
 #### SLURM_Template.txt and my_qadapter.yaml
 For this step, we'll create two separate files, both of which will enable us to make our jobs work with SLURM's queuing system. It's necessary if we want to launch jobs via `qlaunch`, not just `rlaunch` (the normal way to launch FireWorks). First, we create `SLURM_template.txt` which looks like this:
 
-```Shell 
+```shell 
 #!/bin/bash -l
 
 #SBATCH --nodes=$${nodes}
@@ -90,7 +96,7 @@ cp -R "$TMPDIR" "$SLURM_SUBMIT_DIR"
 
 As the title suggests, this file is the .run file template that will be used everytime you launch a firework. The export lines are specifically for QChem, and may be different depending on what code you're using. Take notice of all the `$${job}` parameters we can modify. This is what our next file `my_qadapter.yaml` is for:
 
-```YAML
+```yaml
 _fw_name: CommonAdapter
 _fw_q_type: SLURM
 rocket_launch: rlaunch -w /path/to/my_fworker.yaml -l /path/to/my_launchpad.yaml singleshot --offline
@@ -120,7 +126,7 @@ Take notice of the `rocket_launch` line where you'll have to specify the _absolu
 #### QChem Input 
 Finally, you'll need your actual QChem input file. For the sake of speed, let's do a single point of methane:
 
-```QChem
+```
 $molecule
 0 1
 C    0.00000    0.00000   -0.00000
