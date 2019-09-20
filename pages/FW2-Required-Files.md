@@ -2,13 +2,13 @@
 layout: default
 ---
 
-## Running your First Workflow
+## Required files
 
 [Previous](./FW1-PythonInst.html) | [Home](../) | [Next](./FW3-Running-Workflow.html)
 
 Now that we have set-up FireWorks on HPC and have a working connection to our 'launchpad' hosted on MongoDB, we can now prepare to launch our first workflow. In order to do so, however, we need to create some files. These can all be found on the main FireWorks tutorial, but I've adjusted them for our case.
 
-### Required files
+
 Open up to an empty directory (or the same one your `my_launchpad.yaml` is located). By the end of this, we should have the following.
 
 1. my_launchpad.yaml
