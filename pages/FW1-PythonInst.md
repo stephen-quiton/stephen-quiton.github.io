@@ -4,13 +4,13 @@ layout: default
 
 ## Installing FireWorks and Setting up MongoDB
 
-[Home](../) | [Next](./FW3-Running-Workflow.html)
+[Home](../) | [Next](./FW2-Required-Files.html)
 
 ### FireWorks
 
 Installing python packages on HPC is [not necessarily the same](https://hpcc.usc.edu/support/documentation/python/) as if you were to do the same with your own machine. This is because the command `pip` usually goes to a directory guarded by sudo permissions, which we don't have. Thus, the commands we need to use are: 
 
-```
+```shell
 source /usr/usc/python/3.6.0/setup.sh
 pip install FireWorks --user
 ```
@@ -41,13 +41,13 @@ Also keep in mind that the primary cluster changes once in a while, so make sure
 ### Test your connection
 Head back to the HPC terminal and create a file called `my_launchpad.yaml`. Put the following in it:
 
-```
+```yaml
 authsource: admin
-host: cluster0-shard-00-0x-abcdef.azure.mongodb.net
+host: cluster0-shard-00-0x-abcde.azure.mongodb.net #replace
 logdir: null
-name: put-any-name
-password: mongo-password
-port: 27017
+name: put-any-name #replace
+password: mongo-password #replace
+port: 27017 #default, but replace if different
 ssl: true
 ssl_ca_certs: null
 ssl_certfile: null
@@ -55,15 +55,15 @@ ssl_keyfile: null
 ssl_pem_passphrase: null
 strm_lvl: INFO
 user_indices: []
-username: mongo-username
+username: mongo-username #replace
 wf_user_indices: []
 ```
 
-Replace the appropriate values (host, name, username, password)as necessary for your case. Then do the following command in the same directory:
+Replace the appropriate values (host, name, username, password) as necessary for your case. Then do the following command in the same directory:
 
-```
+```shell
 lpad -l my_launchpad.yaml get_wflows
 ```
-If it returns an empty array (which it should because we haven't added any workflows) rather than returning an error, then your connection is working.
+The `-l` optiIf it returns an empty array (which it should because we haven't added any workflows) rather than returning an error, then your connection is working.
 
-[Home](../) | [Next](./FW3-Running-Workflow.html)
+[Home](../) | [Next](./FW2-Required-Files.html)
