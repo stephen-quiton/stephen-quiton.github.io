@@ -118,10 +118,23 @@ _fw_template_file: /auto/rcf-40/quiton/SLURM_template.txt
 Take notice of the `rocket_launch` line where you'll have to specify the _absolute_ paths to your fworker and launchpad yaml files. Same goes for `_fw_template_file`, with the path pointing to the SLURM_template we just made. The --offline option I will explain later, but keep that. Also, you can change `queue` to match your particular partition.
 
 #### QChem Input 
-Finally, you'll need your actual QChem input file. For the sake of speed, let's use this one:
+Finally, you'll need your actual QChem input file. For the sake of speed, let's do a single point of methane:
 
 ```
+$molecule
+0 1
+C    0.00000    0.00000   -0.00000
+H    0.61776   -0.61776    0.61776
+H    0.61776    0.61776   -0.61776
+H   -0.61776    0.61776    0.61776
+H   -0.61776   -0.61776   -0.61776
+$end
 
+$rem
+JOBTYPE spe
+METHOD b3lyp
+BASIS 6-31G
+$end
 ```
 Since we're using FireWorks to launch via SLURM, we do not need a `.run` file. 
 
