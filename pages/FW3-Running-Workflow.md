@@ -119,7 +119,7 @@ post_rocket: null
 #    status_cmd: my_qstatus
 
 #You can also supply your own template by uncommenting and changing the following line:
-_fw_template_file: /auto/rcf-40/quiton/SLURM_template.txt
+_fw_template_file: /path/to/SLURM_template.txt
 ```
 Take notice of the `rocket_launch` line where you'll have to specify the _absolute_ paths to your fworker and launchpad yaml files. Same goes for `_fw_template_file`, with the path pointing to the SLURM_template we just made. The --offline option I will explain later, but keep that. Also, you can change `queue` to match your particular partition.
 
