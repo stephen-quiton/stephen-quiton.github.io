@@ -145,13 +145,6 @@ $end
 ```
 Since we're using FireWorks to launch via SLURM, we do not need a `.run` file. 
 
-### Python Script to add Workflow
-
-### Launch!
-
-### Dealing with FireWorks in Offline Mode
-
-The FireWorks tutorial has several ways of adding a workflow to the database and also several ways to run it (for instance: `rlaunch singleshot`, `qlaunch singleshot`, etc.). Since we want to eventually run a lot of jobs at once, let's stick to `qlaunch rapidfire`
-
+Next
 
 [Previous](./FW1-PythonInst.html) | [Home](../) | [Next](./FW3-Running-Workflow.html)

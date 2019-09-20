@@ -41,9 +41,10 @@ full_script = cd_subdir + copy_to_subdir + source_qchem + exec_qchem + copy_outp
 firetask = ScriptTask.from_str(full_script)   
 firework= Firework(firetask, name = 'Methane SPE',fw_id=1)
 workflow = Workflow([firework], name = 'Methane')
-launchpad.add_wf(workflow)
-    
+launchpad.add_wf(workflow) 
 ```
+
+
 ### Launch!
 
 ### Dealing with FireWorks in Offline Mode
