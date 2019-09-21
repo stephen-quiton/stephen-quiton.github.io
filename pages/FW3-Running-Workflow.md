@@ -26,18 +26,18 @@ launchpad = LaunchPad(
     password = 'mongo-password', #replace
     ssl = True,
     username = 'mongo-username' #replace
-) 
+)
 
 input = 'methane.inp' #replace with your qchem input file name
 
-#These lines are shell commands that need to be executed sequentially 
+#These lines are shell commands that need to be executed sequentially
 cd_subdir = 'cd $SLURM_SUBMIT_DIR && '
 copy_to_subdir = 'cp ' +  input + ' $SLURM_SUBMIT_DIR && '
 source_qchem = 'source /usr/usc/qchem/default/qcenv.sh && '
 exec_qchem = 'qchem -nt 20 ' + input + ' && '
 copy_output_maindir = 'cp ' + input[0:-4] + '.out ../../'
-  
-#Each line combined into one huge script. '&&' serves to separate individual commands
+
+#Each line is combined into one long command. '&&' serves to separate individual commands
 full_script = cd_subdir + copy_to_subdir + source_qchem + exec_qchem + copy_output_maindir
 
 #Create a ScriptTask that takes a shell command string as its argument
@@ -46,8 +46,8 @@ firetask = ScriptTask.from_str(full_script)
 firework= Firework(firetask, name = 'Methane SPE',fw_id=1)
 #Use the Firework object as an argument to create a Workflow object
 workflow = Workflow([firework], name = 'Methane')
-#Add Workflow object to launchpad 
-launchpad.add_wf(workflow) 
+#Add Workflow object to launchpad
+launchpad.add_wf(workflow)
 ```
 Once you have `add_wf.py`, execute it. But before that, reset the launchpad:
 
@@ -56,7 +56,7 @@ lpad reset
 python add_wf.py
 ```
 
-To check if the workflow was correctly added to the MongoDB launchpad, it should have returned a short message entailing that a Firework had been added. You can also use the following command below 
+To check if the workflow was correctly added to the MongoDB launchpad, it should have returned a short message entailing that a Firework had been added. You can also use the following command below
 
 ```shell
 lpad -l my_launchpad.yaml get_wflows
@@ -70,10 +70,11 @@ alias lpad='lpad -l /path/to/my_launchpad.yaml'
 ### Launch!
 
 Now that you've added your workflow, you can now launch. Run the following
-
 ```
 qlaunch -r rapidfire -m 1
 ```
+To check if it's running, use `squeue` or `sacct`.
+
 The FireWorks tutorial has several ways of launching a workflow (for instance: `rlaunch singleshot`, `qlaunch singleshot`, etc.). Since we want to eventually run a lot of jobs at once and because it has a specific behavior in terms of organizing job files, let’s stick to `qlaunch rapidfire`.
 
 ### Dealing with FireWorks in Offline Mode
@@ -81,4 +82,3 @@ The FireWorks tutorial has several ways of launching a workflow (for instance: `
 
 
 [Previous](./FW1-PythonInst.html) | [Home](../) | [Next](./FW4-Advanced-Setups.html)
-
