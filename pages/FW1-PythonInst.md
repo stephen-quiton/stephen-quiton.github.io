@@ -2,7 +2,7 @@
 layout: default
 ---
 
-## Installing FireWorks and Setting up MongoDB
+# Installing FireWorks and Setting up MongoDB
 
 [Home](../) | [Next](./FW2-Required-Files.html)
 

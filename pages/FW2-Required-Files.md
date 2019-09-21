@@ -2,7 +2,7 @@
 layout: default
 ---
 
-## Required files
+# Required files
 
 [Previous](./FW1-PythonInst.html) | [Home](../) | [Next](./FW3-Running-Workflow.html)
 
