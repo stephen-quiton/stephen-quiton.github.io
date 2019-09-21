@@ -19,7 +19,7 @@ Open up to an empty directory (or the same one your `my_launchpad.yaml` is locat
 
 
 #### my_launchpad.yaml
-This file contains all the necessary information for your FireWorks installation to connect to your launchpad via `lpad` (used to query your database for existing workflows and other tasks) , `qlaunch` (launch fireworks to a queueing system, like SLURM, in succession), etc. We'll get to use these commands later on. 
+This file contains all the necessary information for your FireWorks installation to connect to your launchpad via `lpad` (used to query your database for existing workflows and other tasks) , `qlaunch` (launch fireworks to a queueing system, like SLURM, in succession), etc. We'll get to use these commands later on.
 
 If you have already created this file from the [previous page](./FW1-PythonInst.html) and have it in the directory already, then you're good to go. In case you haven't, you can copy paste from below and replace the information with your own:
 
@@ -56,7 +56,7 @@ query: '{}'
 #### SLURM_Template.txt and my_qadapter.yaml
 For this step, we'll create two separate files, both of which will enable us to make our jobs work with SLURM's queuing system. It's necessary if we want to launch jobs via `qlaunch`, not just `rlaunch` (the normal way to launch FireWorks). First, we create `SLURM_template.txt` which looks like this:
 
-```shell 
+```shell
 #!/bin/bash -l
 
 #SBATCH --nodes=$${nodes}
@@ -79,12 +79,12 @@ For this step, we'll create two separate files, both of which will enable us to 
 #SBATCH --mem-per-cpu=$${mem_per_cpu}
 
 
-export QC=/usr/usc/qchem/default 
-export QCAUX=$QC/qcaux 
-export QCPLATFORM=LINUX_Ix86_64 
-export QCRSH=ssh 
-export PATH=$QC/bin:$PATH 
-export QCSCRATCH=$TMPDIR 
+export QC=/usr/usc/qchem/default
+export QCAUX=$QC/qcaux
+export QCPLATFORM=LINUX_Ix86_64
+export QCRSH=ssh
+export PATH=$QC/bin:$PATH
+export QCSCRATCH=$TMPDIR
 
 $${pre_rocket}
 $${rocket_launch}
@@ -104,7 +104,7 @@ rocket_launch: rlaunch -w /path/to/my_fworker.yaml -l /path/to/my_launchpad.yaml
 ntasks: null
 cpus_per_task: 1
 nodes: 1
-mem_per_cpu: 2GB 
+mem_per_cpu: 2GB
 ntasks_per_node: 20
 walltime: '12:00:00'
 queue: null #change to your partition
@@ -144,7 +144,5 @@ BASIS 6-31G
 $end
 ```
 Since we're using FireWorks to launch via SLURM, we do not need a `.run` file. 
-
-Next
 
 [Previous](./FW1-PythonInst.html) | [Home](../) | [Next](./FW3-Running-Workflow.html)
