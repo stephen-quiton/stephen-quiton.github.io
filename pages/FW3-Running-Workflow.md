@@ -2,7 +2,7 @@
 layout: default
 ---
 
-## Running your First Workflow
+# Running your First Workflow
 
 [Previous](./FW2-Required-Files.html)| [Home](../) | [Next](./FW4-Advanced-Setups.html)
 
@@ -75,7 +75,7 @@ qlaunch -r rapidfire -m 1
 ```
 To check if it's running, use `squeue` or `sacct`.
 
-The FireWorks tutorial has several ways of launching a workflow (for instance: `rlaunch singleshot`, `qlaunch singleshot`, etc.). Since we want to eventually run a lot of jobs at once and because it has a specific behavior in terms of organizing job files, let’s stick to `qlaunch rapidfire`.
+The main FireWorks tutorial has several ways of launching a workflow (for instance: `rlaunch singleshot`, `qlaunch singleshot`, etc.). Since we want to eventually run a lot of jobs at once and because it has a specific behavior in terms of organizing job files, let’s stick to `qlaunch rapidfire`.
 
 ### Dealing with FireWorks in Offline Mode
 
