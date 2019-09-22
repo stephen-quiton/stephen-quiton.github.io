@@ -25,24 +25,24 @@ from pymatgen.io.qchem.inputs import QCInput
 from pymatgen.io.qchem.outputs import QCOutput
 
 #convert output into QCOutput object
-output = QCOutput(filename = “qchem.out”)
+output = QCOutput(filename = "qchem.out")
 
 #extract optimized geometry
 opt_geom = output.data['molecule_from_last_geometry']
 
 #manually create job parameters for $rem
 NewRem = {
-   “BASIS”:“def2-svpd”
-   “GUI”: “2”
-   “JOB_TYPE”: “opt”
-   “METHOD”:“B3LYP”
+   "BASIS":"def2-svpd"
+   "GUI": "2"
+   "JOB_TYPE": "opt"
+   "METHOD":"B3LYP"
 }
 
 #Use these to construct QCInput object
-NewInput = QCInput(molecule = OptBenz, rem = NewRem, …)
+NewInput = QCInput(molecule = OptBenz, rem = NewRem)
 
 #Write new input file
-NewInput.write_file(“NewInp.inp”)
+NewInput.write_file("NewInp.inp")
 ```
 
 Execute the above python script. By the end, you should be able to see a new input "NewInp.inp" with the last optimized geometry of your given output and some new $rem parameters. Using pymatgen's QCInput and QCOutput objects, we can easily transfer key information like geometries between fireworks and also extract data en masse from outputs.
