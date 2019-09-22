@@ -9,7 +9,44 @@ Chances are that you're not using FireWorks just to run one workflow containing 
 All of these aspects will be addressed in this section, with the introduction of two python packages (also made by the Materials Project) and utilizing them to create more complex workflows
 
 ### Pymatgen
+[Pymatgen](http://pymatgen.org/) is another python package that can perform input/output parsing for various quantum chemistry codes, including QChem. You can either install it via
+```shell
+conda install --channel matsci pymatgen
+```
+or:
+```shell
+pip install pymatgen --user
+```
 
+Once you've done it, open up to an empty directory and place the following python script (transfer_geom.py) along with a sample qchem output file (qchem.out) for a demonstration of parsing outputs and generating inputs:
+
+```python
+from pymatgen.io.qchem.inputs import QCInput
+from pymatgen.io.qchem.outputs import QCOutput
+
+#convert output into QCOutput object
+output = QCOutput(filename = “qchem.out”)
+
+#extract optimized geometry
+opt_geom = output.data['molecule_from_last_geometry’]
+
+#manually create job parameters for $rem
+NewRem = {
+   “BASIS”:“def2-svpd”
+   “GUI”: “2”
+   “JOB_TYPE”: “opt”
+   “METHOD”:“B3LYP”
+    …
+}
+
+#Use these to construct QCInput object
+NewInput = QCInput(molecule = OptBenz, rem = NewRem, …)
+
+#Write new input file
+NewInput.write_file(“NewInp.inp”)
+```
+
+Using pymatgen's qcinput ad
 
 
 ### Custodian
