@@ -4,7 +4,7 @@ layout: default
 
 # Running your First Workflow
 
-[Previous](./FW2-Required-Files.html)| [Home](../) | [Next](./FW4-Advanced-Setups.html)
+[Previous](./FW2-Required-Files.html) <code>&#124;</code> [Home](../) <code>&#124;</code> [Next](./FW4-Advanced-Setups.html)
 
 Now that we have all of the files required for launch, we're almost ready to launch. First thing is to actually add information about our workflow to the MongoDB launchpad. There's many ways to do so, but I think it would be good if we use *python* because it can allow us to easily make complex workflow patterns; more on that later. For this tutorial, we're just going to make a workflow that executes a single firework.
 
@@ -93,4 +93,4 @@ Now check your job status again, and it should be correctly marked "COMPLETED". 
 **Congratulations!** You've just run your first workflow! Now we can get on to a slightly more advanced setup, which takes advantage of even more of FireWorks capabilities.
 
 
-[Previous](./FW2-Required-Files.html) | [Home](../) | [Next](./FW4-Advanced-Setups.html)
+[Previous](./FW2-Required-Files.html) <code>&#124;</code> [Home](../) <code>&#124;</code> [Next](./FW4-Advanced-Setups.html)

@@ -4,7 +4,7 @@ layout: default
 
 # Required files
 
-[Previous](./FW1-PythonInst.html) | [Home](../) | [Next](./FW3-Running-Workflow.html)
+[Previous](./FW1-PythonInst.html) <code>&#124;</code> [Home](../) <code>&#124;</code> [Next](./FW3-Running-Workflow.html)
 
 Now that we have set-up FireWorks on HPC and have a working connection to our 'launchpad' hosted on MongoDB, we can now prepare to launch our first workflow. In order to do so, however, we need to create some files. These can all be found on the main FireWorks tutorial, but I've adjusted them for our case.
 
@@ -143,6 +143,6 @@ METHOD b3lyp
 BASIS 6-31G
 $end
 ```
-Since we're using FireWorks to launch via SLURM, we do not need a `.run` file. 
+Since we're using FireWorks to launch via SLURM, we do not need a `.run` file.
 
-[Previous](./FW1-PythonInst.html) | [Home](../) | [Next](./FW3-Running-Workflow.html)
+[Previous](./FW1-PythonInst.html) <code>&#124;</code> [Home](../) <code>&#124;</code> [Next](./FW3-Running-Workflow.html)
