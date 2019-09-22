@@ -1,8 +1,9 @@
 ---
 layout: default
 ---
-[Previous](./FW3-Running-Workflowss.html) | [Home](../) | [Next](./FW5-WebGUI.html)
+
 # Advanced Setups
+[Previous](./FW3-Running-Workflows.html) | [Home](../) | [Next](./FW5-WebGUI.html)
 
 Chances are that you're not using FireWorks just to run one workflow containing a single job. At the very least, you're looking forward to running many of these calculations at once and/or create more intricate workflows where each firework depends on information contained in the previous job. Perhaps you'd also be interested in giving your QChem jobs some ability to self correct in errors.
 
