@@ -52,4 +52,4 @@ Execute the above python script. By the end, you should be able to see a new inp
 
 ### Running Multi-firework Workflows
 
-[Previous](./FW3-Running-Workflowss.html) | [Home](../) | [Next](./FW5-WebGUI.html)
+[Previous](./FW3-Running-Workflowss.html) <code>&#124;</code> [Home](../) <code>&#124;</code> [Next](./FW5-WebGUI.html)
