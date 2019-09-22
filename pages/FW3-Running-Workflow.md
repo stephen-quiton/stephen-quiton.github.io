@@ -78,7 +78,19 @@ To check if it's running, use `squeue` or `sacct`.
 The main FireWorks tutorial has several ways of launching a workflow (for instance: `rlaunch singleshot`, `qlaunch singleshot`, etc.). Since we want to eventually run a lot of jobs at once and because it has a specific behavior in terms of organizing job files, let’s stick to `qlaunch rapidfire`.
 
 ### Dealing with FireWorks in Offline Mode
+Something you might have also noticed was the `-r` option in the `qlaunch` command. This means launch in reserve mode, which is required for our setup because we must run FireWorks in [offline mode](https://materialsproject.github.io/fireworks/offline_tutorial.html). This is because HPC's compute nodes are not able to connect to the internet directly.
+
+This will not affect the normal operation of FireWorks apart from one aspect: that you'll have to run the following command to update whether a given firework is in the "RUNNING", "COMPLETED", or "FIZZLED" states.  
+
+Once your job is complete via `sacct`/`squeue`, run `lpad get_wflows`. It should read that the state of your firework had been automatically set to "RESERVED" (meaning that the job was pending, but is not running), but not "COMPLETED". Then run the following
+
+```
+lpad recover_offline
+```
+
+Now check your job status again, and it should be correctly marked "COMPLETED". This affects our jobs in that if Firework A leads to Firework B, Firework B will not begin until Firework A has been marked "COMPLETED".
+
+**Congratulations!** You've just run your first workflow! Now we can get on to a slightly more advanced setup, which takes advantage of even more of FireWorks capabilities.
 
 
-
-[Previous](./FW1-PythonInst.html) | [Home](../) | [Next](./FW4-Advanced-Setups.html)
+[Previous](./FW2-Required-Files.html) | [Home](../) | [Next](./FW4-Advanced-Setups.html)
