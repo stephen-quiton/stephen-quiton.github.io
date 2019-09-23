@@ -21,5 +21,5 @@ With that out of the way, [lets get started!](./pages/FW1-PythonInst.html) Or yo
 
 * Dynamic workflows
 * Common errors and how to fix them
-* Sample MongoDB Queries
+* Sample MongoDB Queries to filter workflows/fireworks
 * Modifying a firework's spec

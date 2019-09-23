@@ -8,7 +8,7 @@ layout: default
 
 This part is completely optional since you can actually check up on workflow statuses using 'lpad' commands or by looking at directly at MongoDB Atlas. But it is highly convenient (and oddly satisfying) to see the workflows complete on a website. You also don't need to do this if you're going to rely on using my database, whose WebGUI has already been setup, but you can feel free to read on to find out how I did so.
 
-The Fireworks tutorial for the [WebGUI](https://materialsproject.github.io/fireworks/basesite_tutorial.html) does go through one way to set it up, but unfortunately, this method isn't necessarily ideal to run on the login-nodes of an HPC cluster. Instead, I ran it based on the "Running the Flask app via Python" secition, dedicating a Raspberry Pi to keeping the WebGUI up and running. In principle, you could use any computer, but Rasbperry Pi's are good because they're small, always running, and highly configurable. I'm using the regular Rasbpian 8 (jessie) OS and VNC viewer to control it remotely.
+The Fireworks tutorial for the [WebGUI](https://materialsproject.github.io/fireworks/basesite_tutorial.html) does go through one way to set it up, but unfortunately, this method isn't necessarily ideal to run on the login-nodes of an HPC cluster. Instead, I ran it based on the "Running the Flask app via Python" section, dedicating a Raspberry Pi to keeping the WebGUI up and running. In principle, you could use any computer, but Raspberry Pi's are good because they're small, always running, and highly configurable. I'm using the regular Raspbian 8 (jessie) OS and VNC viewer to control it remotely.
 
 Here's what you need:
 
