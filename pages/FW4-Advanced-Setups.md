@@ -121,9 +121,13 @@ source /usr/usc/qchem/default/qcenv.sh
 python custodian.py qchem.inp "$TMPDIR"
 cp -R "$TMPDIR" "$SLURM_SUBMIT_DIR"
 ```
-Then submit it using `sbatch`. Check back a couple of minutes later, and you should have a couple of new files aside from `qchem.out`, including `custodian.json`. This contains all of the errors Custodian picked up and the measures it took to correct it. For our case, the job should have ran into an error due to too few SCF cycles, to which Custodian should have responded by simply increasing it.
+Then submit it using `sbatch`. Notice how this is the exact same run script as a normal QChem SLURM submission, except the `qchem` execution line is replaced with an execution of our Custodian script.
 
+Check back a couple of minutes later, and you should have a couple of new files aside from `qchem.out`, including `custodian.json`. This contains all of the errors Custodian picked up and the measures it took to correct it. For our case, the job should have ran into an error due to too few SCF cycles, to which Custodian should have responded by simply increasing it.
 
 ### Running Multi-firework Workflows
+
+Now let's see how we can incorporate both of these features into implementing more workflows. Open up to another empty directory and
+
 
 [Previous](./FW3-Running-Workflow.html) <code>&#124;</code> [Home](../) <code>&#124;</code> [Next](./FW5-WebGUI.html)

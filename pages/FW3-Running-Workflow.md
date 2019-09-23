@@ -80,7 +80,7 @@ The main FireWorks tutorial has several ways of launching a workflow (for instan
 ### Dealing with FireWorks in Offline Mode
 Something you might have also noticed was the `-r` option in the `qlaunch` command. This means launch in reserve mode, which is required for our setup because we must run FireWorks in [offline mode](https://materialsproject.github.io/fireworks/offline_tutorial.html). This is because HPC's compute nodes are not able to connect to the internet directly.
 
-This will not affect the normal operation of FireWorks apart from one aspect: that you'll have to run the following command to update whether a given firework is in the "RUNNING", "COMPLETED", or "FIZZLED" states.  
+This will not affect the normal operation of FireWorks apart from one aspect: that you'll have to run a command to update whether a given firework is in the "RUNNING", "COMPLETED", or "FIZZLED" states.  
 
 Once your job is complete via `sacct`/`squeue`, run `lpad get_wflows`. It should read that the state of your firework had been automatically set to "RESERVED" (meaning that the job was pending, but is not running), but not "COMPLETED". Then run the following
 

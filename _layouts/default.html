@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="{{ site.lang | default: "en-US" }}">
   <head>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148451202-1"></script>
+    <script>
+     window.dataLayer = window.dataLayer || [];
+     function gtag(){dataLayer.push(arguments);}
+     gtag('js', new Date());
+
+     gtag('config', 'UA-148451202-1');
+    </script>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -31,13 +42,13 @@
     <div class="wrapper">
       <header>
         <h1><a href="{{ "/" | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
-        
+
         {% if site.logo %}
           <img src="{{site.logo | relative_url}}" alt="Logo" />
         {% endif %}
 
         <p>{{ site.description | default: site.github.project_tagline }}</p>
-        
+
         <!--
         <ol type="1">
          <li>Installing Required Python Packages on HPC</li>
@@ -45,12 +56,12 @@
          <li>Running your first workflow!</li>
          <li>Advanced Setups</li>
          <li>Setting up the WebGUI</li>
-        </ol>    
+        </ol>
         -->
 
         <p class="small">
         <strong>Main Tutorial</strong><br>
-         <a href="https://squiton.github.io/pages/FW1-PythonInst.html">1) Installing FireWorks on HPC and Connecting to MongoDB</a><br> 
+         <a href="https://squiton.github.io/pages/FW1-PythonInst.html">1) Installing FireWorks on HPC and Connecting to MongoDB</a><br>
          <!--
          <a href="https://squiton.github.io/pages/FW2-MongoDB.html">2) Setting up MongoDB and Connecting to Your Launchpad</a><br>
          -->
@@ -59,7 +70,7 @@
          <a href="https://squiton.github.io/pages/FW4-Advanced-Setups.html">4) Advanced Setups</a><br>
          <a href="https://squiton.github.io/pages/FW5-WebGUI.html">5) Setting up the WebGUI</a><br>
         </p>
-          
+
         {% if site.github.is_project_page %}
         <p class="view"><a href="{{ site.github.repository_url }}">View the Project on GitHub <small>{{ site.github.repository_nwo }}</small></a></p>
         {% endif %}
