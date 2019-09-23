@@ -64,6 +64,6 @@ Replace the appropriate values (host, name, username, password) as necessary for
 ```shell
 lpad -l my_launchpad.yaml get_wflows
 ```
-The `-l` optiIf it returns an empty array (which it should because we haven't added any workflows) rather than returning an error, then your connection is working.
+If it returns an empty array (which it should because we haven't added any workflows) rather than returning an error, then your connection is working.
 
 [Home](../) <code>&#124;</code> [Next](./FW2-Required-Files.html)
