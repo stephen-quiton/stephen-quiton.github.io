@@ -11,6 +11,7 @@ All of these aspects will be addressed in this section, with the introduction of
 
 ### Pymatgen
 [Pymatgen](http://pymatgen.org/) is another python package that can perform input/output parsing for various quantum chemistry codes, including QChem. You can either install it via
+
 ```shell
 conda install --channel matsci pymatgen
 ```
@@ -121,13 +122,23 @@ source /usr/usc/qchem/default/qcenv.sh
 python custodian.py qchem.inp "$TMPDIR"
 cp -R "$TMPDIR" "$SLURM_SUBMIT_DIR"
 ```
-Then submit it using `sbatch`. Notice how this is the exact same run script as a normal QChem SLURM submission, except the `qchem` execution line is replaced with an execution of our Custodian script.
+Then submit it using `sbatch`. Notice how this is the exact same run script as a normal QChem SLURM submission, except the `qchem` execution line is replaced with an execution of our Custodian script. For the `python` line, you may see that we have some additional input arguments; these exist so that we are able to pass the name of the input file as well as the scratch directory (``"$TMPDIR"``) to Custodian via `sys.argv`.
 
 Check back a couple of minutes later, and you should have a couple of new files aside from `qchem.out`, including `custodian.json`. This contains all of the errors Custodian picked up and the measures it took to correct it. For our case, the job should have ran into an error due to too few SCF cycles, to which Custodian should have responded by simply increasing it.
 
-### Running Multi-firework Workflows
+## Running Multi-firework Workflows
 
-Now let's see how we can incorporate both of these features into implementing more workflows. Open up to another empty directory and
+Now let's see how we can incorporate both of these features into implementing more workflows. Open up to another empty directory and place your .yaml files (`my_launchpad`, `my_qadapter`, `my_fworker`, `my_qadapter`) and a copy of the `custodian.py` we wrote. Also place a qchem input that's a geometry optimization (like `methane.inp`). What we are going to do is utilize both Custodian and Pymatgen to create a workflow that proceeds from an initial geometry optimization to a frequency job. In order to do so, not only do we need the previous files I mentioned, but also 2 more: one to handle passing information from an output to an input, and another to add the workflow to the database (which we have written before: `add_wf.py`).
+
+#### next_job.py
+
+```
+
+```
+
+Like the previous tutorial, we're going to add a workflow to the database via a python script, but this time it's slightly different.
+
+
 
 
 [Previous](./FW3-Running-Workflow.html) <code>&#124;</code> [Home](../) <code>&#124;</code> [Next](./FW5-WebGUI.html)

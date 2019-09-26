@@ -49,6 +49,17 @@ workflow = Workflow([firework], name = 'Methane')
 #Add Workflow object to launchpad
 launchpad.add_wf(workflow)
 ```
+
+So in essence, this workflow will replace the $${rocket_launch} value in the SLURM template with:
+
+```
+cd $SLURM_SUBMIT_DIR
+cp methane.inp $SLURM_SUBMIT_DIR
+source /usr/usc/qchem/default/qcenv.sh
+qchem -nt 20 methane.inp
+cp methane.out ../../
+```
+
 Once you have `add_wf.py`, execute it. But before that, reset the launchpad:
 
 ```
