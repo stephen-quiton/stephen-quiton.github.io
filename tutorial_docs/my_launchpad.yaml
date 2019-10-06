@@ -1,0 +1,15 @@
+authsource: admin
+host: cluster0-shard-00-0x-abcde.azure.mongodb.net #replace
+logdir: null
+name: put-any-name #replace
+password: mongo-password #replace
+port: 27017 #default, but replace if different
+ssl: true
+ssl_ca_certs: null
+ssl_certfile: null
+ssl_keyfile: null
+ssl_pem_passphrase: null
+strm_lvl: INFO
+user_indices: []
+username: mongo-username #replace
+wf_user_indices: []
