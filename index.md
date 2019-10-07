@@ -11,7 +11,7 @@ Arguably, you could go through the main FireWorks tutorial for installation, but
 
 This website is very much a WIP, so if you catch anything that might be a mistake or anything that you'd feel would be helpful to include, do not hesitate to contact me at quiton[at]usc.edu. This website is also hosted on Github pages, so feel free to fork it and create a page that you think would be helpful.
 
-With that out of the way, [lets get started!](./pages/FW1-PythonInst.html) Or you can use the sidebar at the left for a specific page. Also, in each part we will be creating scripts and other files we need to get through the tutorial. You can make them yourself, or, if you access the github repository I used to create this website, you'll find a folder called `/tutorial_docs`, which contains all the files you'd need for each part. 
+With that out of the way, [lets get started!](./pages/FW1-PythonInst.html) Or you can use the sidebar at the left for a specific page. Also, in each part we will be creating scripts and other files we need to get through the tutorial. You can make them yourself, or, if you access the github repository I used to create this website, you'll find a folder called `/tutorial_docs` which contains all the files for each part for copy/pasting.
 
 [Next](./pages/FW1-PythonInst.html)
 
