@@ -15,7 +15,7 @@ source /usr/usc/python/3.6.0/setup.sh
 pip install FireWorks --user
 ```
 
-I highly recommend you place the first line in your ~/.bashrc so python is setup when you enter the shell. With the `--user` option, the FireWorks python package should be installed to ~/.local. You can keep .local where it is if you'd like, but I've decided to make ~/.local a soft-link to a directory with more quota space so I don't have to be concerned with storage.
+I highly recommend you place the first line in your `~/.bashrc` so python is setup when you enter the shell. With the `--user` option, the FireWorks python package should be installed to `~/.local`. You can keep .local where it is if you'd like, but I've decided to make `~/.local` a soft-link to a directory with more quota space so I don't have to be concerned with storage.
 
 To test if FireWorks is installed correctly, restart your terminal and run the command `lpad`. If it returns with a list of options to use with `lpad`, you're ready to go
 
@@ -25,7 +25,7 @@ FireWorks can be used with any remote database, but the one that has worked most
 
 When you setting it up, you should have come across the list of IPs to whitelist (click on "Network Access" on the sidebar). For now, the only IP address we want to add is HPC's login node, which you can do by adding `10.125.0.0/0`. As a last resort, if you later come to connection problems, you can allow access from all IPs (add `0.0.0.0/0`), but this is generally not recommended because at that point, your database can be modified from anywhere.
 
-Something else you may have come across is creating user-password combo to access the database ("Database Access" on the sidebar). You only need one, and make sure its user privileges is set to "Atlas admin."
+Something else you should have also come across is creating user-password combo to access the database ("Database Access" on the sidebar). You only need one, and make sure its user privileges is set to "Atlas admin."
 
 Finally, when you click "Clusters" on the sidebar, you should be able to see three different hostnames, with one being designated the 'Primary' cluster. Click on that one, and you should be able to get the full host name in this format:
 

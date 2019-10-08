@@ -119,7 +119,7 @@ export QCSCRATCH=$TMPDIR
 
 cd ${SLURM_SUBMIT_DIR}
 source /usr/usc/qchem/default/qcenv.sh
-python custodian.py qchem.inp "$TMPDIR"
+python custodian.py qchem_custodian.inp "$TMPDIR"
 cp -R "$TMPDIR" "$SLURM_SUBMIT_DIR"
 ```
 Then submit it using `sbatch`. Notice how this is the exact same run script as a normal QChem SLURM submission, except the `qchem` execution line is replaced with an execution of our Custodian script. For the `python` line, you may see that we have some additional input arguments; these exist so that we are able to pass the name of the input file as well as the scratch directory (``"$TMPDIR"``) to Custodian via `sys.argv`.

@@ -14,7 +14,7 @@ Here's what you need:
 
 * An installation of Python, preferably 3.4+ and with Matplotlib so that the bar plots will work.
 * A short python script webgui.py that will be used to connect to the database and run the WebGUI locally
-  * You can look at the bottom of the [WebGUI](https://materialsproject.github.io/fireworks/basesite_tutorial.html) tutorial or have a look in the `/tutorial_docs` folder for one. 
+  * You can look at the bottom of the [WebGUI](https://materialsproject.github.io/fireworks/basesite_tutorial.html) tutorial or have a look in the `/tutorial_docs` folder for one.
 * The 'ngrok' executable obtained by signing up and logging in at the [ngrok website](https://ngrok.com/). This will be used to expose the local website to the public on a randomly generated web address.
 
 After getting everything, cd to where webgui.py run the following to start the webserver. For this command and the next one, be sure to note the process ID in case you want to kill it later (or if you're on Raspbian, you can just look at the process manager and kill it from there):
