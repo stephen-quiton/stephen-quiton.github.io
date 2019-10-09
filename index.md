@@ -17,6 +17,23 @@ With that out of the way, [lets get started!](./pages/FW1-PythonInst.html) Or yo
 
 ***
 
+# Other Helpful Links
+
+1. FireWorks Forums
+   1. https://groups.google.com/forum/#!forum/fireworkflows
+   2. https://hackingmaterials.discourse.group/c/fireworks (New Site)
+2. Source Codes
+   1. FireWorks: https://github.com/materialsproject/fireworks
+   2. Pymatgen: https://github.com/materialsproject/pymatgen
+   3. Custodian: https://github.com/materialsproject/custodian
+3. Other Tutorials I Found
+   1. FireWorks Main: https://materialsproject.github.io/fireworks/installation.html
+   2. Jacob Boes (useful for Quantum Espresso): 
+      1. https://jboes.github.io/2017/suncat-fireworks.html
+      2. https://jboes.github.io/2017/running-fireworks-scripts.html
+   3. NERSC
+      1. https://docs.nersc.gov/jobs/workflow/fireworks/
+
 # To Do List:
 
 * Dynamic workflows
@@ -24,3 +41,4 @@ With that out of the way, [lets get started!](./pages/FW1-PythonInst.html) Or yo
 * Sample MongoDB Queries to filter workflows/fireworks
 * Modifying a firework's spec
 * Allocating resources
+

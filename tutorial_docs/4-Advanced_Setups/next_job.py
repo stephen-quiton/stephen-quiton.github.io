@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import sys
 sys.path.append('/path/to/your/python3.6/site-packages')
-sys.path.append('/path/to/your/python2.7/site-packages')
 
 from fireworks.core.firework import FWAction, Firework, FiretaskBase
 import pymatgen
@@ -15,7 +14,7 @@ def NextJob(fname):
     output = QCOutput(filename = fname)
     opt_geom = output.data['molecule_from_last_geometry']
     NewRem = {
-       "BASIS":"def2-svpd",
+       "BASIS":"6-31G",
        "GUI": "2",
        "JOB_TYPE": "freq",
        "METHOD":"B3LYP"
