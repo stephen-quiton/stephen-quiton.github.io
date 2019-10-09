@@ -17,6 +17,6 @@ export QCSCRATCH=$TMPDIR
 
 cd ${SLURM_SUBMIT_DIR} 
 source /usr/usc/qchem/default/qcenv.sh 
-python custodian.py qchem.inp "$TMPDIR"
+python custodian.py qchem_custodian.inp "$TMPDIR"
 cp -R "$TMPDIR" "$SLURM_SUBMIT_DIR" 
 

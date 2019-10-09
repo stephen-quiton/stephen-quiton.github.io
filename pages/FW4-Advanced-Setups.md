@@ -27,17 +27,17 @@ from pymatgen.io.qchem.inputs import QCInput
 from pymatgen.io.qchem.outputs import QCOutput
 
 #convert output into QCOutput object
-output = QCOutput(filename = "qchem.out")
+output = QCOutput(filename = "methane.out")
 
 #extract optimized geometry
 opt_geom = output.data['molecule_from_last_geometry']
 
 #manually create job parameters for $rem
 NewRem = {
-   "BASIS":"def2-svpd"
-   "GUI": "2"
-   "JOB_TYPE": "opt"
-   "METHOD":"B3LYP"
+    "BASIS":"def2-svpd",
+    "GUI":"2",
+    "JOB_TYPE":"opt",
+    "METHOD":"B3LYP"
 }
 
 #Use these to construct QCInput object
@@ -58,12 +58,12 @@ Installing it is just like our previous packages. I recommend you do this in a s
 pip install custodian --user
 ```
 
-As for wrapping our QChem job, it's a relatively short script. But before that, transfer over your own qchem input qchem.inp (preferably a short geometry optimization) and put the following error-inducing parameter in the $rem section:
+As for wrapping our QChem job, it's a relatively short script. But before that, transfer over your own qchem input qchem_custodian.inp (or you can use the one in [this directory](https://github.com/squiton/squiton.github.io/tree/master/tutorial_docs/4-Advanced_Setups)) and put the following error-inducing parameter in the $rem section:
 
 ```
 max_scf_cycles = 2
 ```
-Then, create the following python script (custodian.py)
+Then, create the following python script (custodian_QC.py)
 
 ```python
 #A Custodian wrapper for QChem jobs. Intended to be run from SLURM. Effectively replaces 'qchem mol.inp'
@@ -97,7 +97,7 @@ c = Custodian(handlers, jobs, max_errors=10)
 c.run()
 ```
 
-For this, we're not going to execute this python script from the command line. We are actually going to use a SLURM run script to execute it, so we can demonstrate how we can incorporate this into the main FireWorks framework. Copy the following from below and place it into a shell script (custodian.run).
+For this, we're not going to execute this python script from the command line. We are actually going to use a SLURM run script to execute it, so we can demonstrate how we can incorporate this into the main FireWorks framework. Copy the following from below and place it into a shell script (custodian_QC.run).
 
 ```shell
 #!/bin/bash -l
@@ -124,19 +124,21 @@ cp -R "$TMPDIR" "$SLURM_SUBMIT_DIR"
 ```
 Then submit it using `sbatch`. Notice how this is the exact same run script as a normal QChem SLURM submission, except the `qchem` execution line is replaced with an execution of our Custodian script. For the `python` line, you may see that we have some additional input arguments; these exist so that we are able to pass the name of the input file as well as the scratch directory (``"$TMPDIR"``) to Custodian via `sys.argv`.
 
-Check back a couple of minutes later, and you should have a couple of new files aside from `qchem.out`, including `custodian.json`. This contains all of the errors Custodian picked up and the measures it took to correct it. For our case, the job should have ran into an error due to too few SCF cycles, to which Custodian should have responded by simply increasing it.
+Check back a couple of minutes later, and you should have a couple of new files aside from `qchem.out`, including `custodian.json`. This contains all of the errors Custodian picked up and the measures it took to correct it. For our case, the job should have ran into an error due to too few SCF cycles, to which Custodian should have responded by simply increasing it. You should also see an `error.1.tar.gz` which contains the input and output of the first run, which had run into an error. 
+
+If you want to see a full list of errors custodian can correct for QChem, you can find it [here in the source code.](https://github.com/materialsproject/custodian/blob/master/custodian/qchem/jobs.py)
 
 ## Running Multi-firework Workflows
 
-Now let's see how we can incorporate both of these features into implementing more workflows. Open up to another empty directory and place your .yaml files (`my_launchpad`, `my_qadapter`, `my_fworker`, `my_qadapter`) and a copy of the `custodian.py` we wrote. Also place a qchem input that's a geometry optimization (like `methane.inp`). What we are going to do is utilize both Custodian and Pymatgen to create a workflow that proceeds from an initial geometry optimization to a frequency job. In order to do so, not only do we need the previous files I mentioned, but also 2 more: one to handle passing information from an output to an input, and another to add the workflow to the database (which we have written before in `add_wf.py` but this time it's different).
+Now let's see how we can incorporate both of these features into implementing more workflows. Open up to another empty directory and place your .yaml files (`my_launchpad`, `my_qadapter`, `my_fworker`, `my_qadapter`) and a copy of the `custodian.py` we wrote. Also place a qchem input that's a geometry optimization. What we are going to do is utilize both Custodian and Pymatgen to create a workflow that proceeds from an initial geometry optimization to a frequency job. In order to do so, not only do we need the previous files I mentioned, but also 2 more: one to handle passing information from an output to an input, and another to add the workflow to the database (which we have written before in `add_wf.py` but this time it's different).
 
 #### next_job.py
 This script is not to be executed manually by the user from the command line, but from the SLURM run script of the second job. You'll see what I mean once we take a look at its contents:
 ```python
 #!/usr/bin/env python
 import sys
-sys.path.append('/path/to/your/python3.6/site-packages') 
-sys.path.append('/path/to/your/python2.7/site-packages') 
+sys.path.append('/path/to/your/python3.6/site-packages')
+sys.path.append('/path/to/your/python2.7/site-packages')
 
 from fireworks.core.firework import FWAction, Firework, FiretaskBase
 import pymatgen
@@ -147,20 +149,21 @@ from fireworks.core.launchpad import LaunchPad
 input1 = sys.argv[1] #previous output file name with quotes
 
 def NextJob(fname):
-    output = QCOutput(filename = fname) 
+    output = QCOutput(filename = fname)
     opt_geom = output.data['molecule_from_last_geometry']
     NewRem = {
-       "BASIS":"def2-svpd"
-       "GUI": "2"
-       "JOB_TYPE": "freq"
+       "BASIS":"def2-svpd",
+       "GUI": "2",
+       "JOB_TYPE": "freq",
        "METHOD":"B3LYP"
     }
     NewPCM = None #can contain a PCM dict
-    NewSolv = None #can contain a SOLV dict 
+    NewSolv = None #can contain a SOLV dict
     NewInput = QCInput(molecule = opt_geom, rem = NewRem, pcm = NewPCM, solvent = NewSolv)
     NewInput.write_file("qchem_freq.inp") #put whatever name here
 
 NextJob(fname = input1)
+
 ```
 
 So essentially, when this script is called by `python next_job.py "qchem_opt.out"`, it takes the optimized geometry of `qchem_opt.out` and uses that to create a new frequency input file. You'll see how this comes into play in our next required script.

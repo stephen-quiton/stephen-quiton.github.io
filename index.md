@@ -23,3 +23,4 @@ With that out of the way, [lets get started!](./pages/FW1-PythonInst.html) Or yo
 * Common errors and how to fix them
 * Sample MongoDB Queries to filter workflows/fireworks
 * Modifying a firework's spec
+* Allocating resources

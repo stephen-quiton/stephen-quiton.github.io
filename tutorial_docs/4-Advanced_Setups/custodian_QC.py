@@ -1,8 +1,6 @@
 #A Custodian wrapper for QChem jobs. Intended to be run from SLURM. Effectively replaces 'qchem mol.inp'
 import sys
-sys.path.append('/auto/rcf-proj/sm1/quiton/python_packages/lib/python3.6/site-packages') 
-sys.path.append('/auto/rcf-proj/sm1/quiton/python_packages/lib/python2.7/site-packages') 
-
+sys.path.append('/path/to/your/python3.6/site-packages') #Replace
 from custodian.custodian import Custodian
 from custodian.qchem.handlers import QChemErrorHandler
 from custodian.qchem.jobs import QCJob
@@ -21,9 +19,9 @@ jobs = [
         QCJob(
             input_file=inname,
             output_file=outname,
-            qchem_command = command, 
-            max_cores = max_cores, 
-            scratch_dir = scratch_dir, 
+            qchem_command = command,
+            max_cores = max_cores,
+            scratch_dir = scratch_dir,
             qclog_file=logname
         )
     ]

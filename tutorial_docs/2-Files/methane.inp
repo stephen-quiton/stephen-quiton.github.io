@@ -8,7 +8,7 @@ H   -0.61776   -0.61776   -0.61776
 $end
 
 $rem
-JOBTYPE spe
+JOBTYPE sp
 METHOD b3lyp
 BASIS 6-31G
 $end

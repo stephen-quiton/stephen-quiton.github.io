@@ -27,7 +27,7 @@ If you have already created this file from the [previous page](./FW1-PythonInst.
 authsource: admin
 host: cluster0-shard-00-0x-abcde.azure.mongodb.net #replace
 logdir: null
-name: put-any-name #replace
+name: database-name #replace
 password: mongo-password #replace
 port: 27017 #default, but replace if different
 ssl: true
@@ -110,7 +110,7 @@ walltime: '12:00:00'
 queue: null #change to your partition
 account: null
 job_name: null
-logdir: /auto/rcf-40/quiton/fw_logs/
+logdir: /path/to/where/you/want/your/fw_logs/ #change
 pre_rocket: null
 post_rocket: null
 
@@ -138,7 +138,7 @@ H   -0.61776   -0.61776   -0.61776
 $end
 
 $rem
-JOBTYPE spe
+JOBTYPE sp
 METHOD b3lyp
 BASIS 6-31G
 $end
