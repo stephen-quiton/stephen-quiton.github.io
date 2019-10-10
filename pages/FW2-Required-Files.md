@@ -95,7 +95,7 @@ cp -R "$TMPDIR" "$SLURM_SUBMIT_DIR"
 
 ```
 
-As the title suggests, this file is the .run file template that will be used everytime you launch a firework. The export lines are specifically for QChem, and may be different depending on what code you're using. Take notice of all the `$${job}` parameters we can modify. This is what our next file `my_qadapter.yaml` is for:
+As the title suggests, this file is the .run file template that will be used every time you launch a firework. The export lines are specifically for QChem, and may be different depending on what code you're using. Take notice of all the `$${job}` parameters we can modify. This is what our next file `my_qadapter.yaml` is for:
 
 ```yaml
 _fw_name: CommonAdapter
