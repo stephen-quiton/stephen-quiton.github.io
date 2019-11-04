@@ -2,11 +2,12 @@ from fireworks import LaunchPad
 from fireworks.flask_site.app import app
 
 app.lp = LaunchPad(
-    host = 'replace.with.MongoDB.hostname.address',
+    host = 'localhost',
+    port = XXXXX,
     authsource = 'admin',
-    name = 'whatever you want',
-    password = 'password set up in mongodb',
-    ssl = True,
-    username = 'username set up in mongodb')  # change the LaunchPad info if needed
+    name = 'fireworks',
+    password = None,
+    ssl = False,
+    username = None)  # change the LaunchPad info if needed
 
-app.run(port=4040,debug=True)
+app.run(port=YYYY,debug=True)

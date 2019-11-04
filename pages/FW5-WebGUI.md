@@ -6,29 +6,45 @@ layout: default
 
 [Previous](./FW4-Advanced-Setups.html) <code>&#124;</code> [Home](../)
 
-This part is completely optional since you can actually check up on workflow statuses using 'lpad' commands or by looking at directly at MongoDB Atlas. But it is highly convenient (and oddly satisfying) to see the workflows complete on a website. 
+This part is completely optional since you can actually check up on workflow statuses using 'lpad' commands or by looking at directly at MongoDB Atlas. But it is highly recommended as it is convenient (and oddly satisfying) to see the workflows complete on a website.
 
-The Fireworks tutorial for the [WebGUI](https://materialsproject.github.io/fireworks/basesite_tutorial.html) does go through one way to set it up, but unfortunately, this method isn't necessarily ideal to run on the login-nodes of an HPC cluster. Instead, I ran it based on the "Running the Flask app via Python" section, dedicating a Raspberry Pi to keeping the WebGUI up and running. In principle, you could use any computer, but Raspberry Pi's are good because they're small, always running, and highly configurable. I'm using the regular Raspbian 8 (jessie) OS and VNC viewer to control it remotely.
+The Fireworks tutorial for the [WebGUI](https://materialsproject.github.io/fireworks/basesite_tutorial.html) does go through one way to set it up, but unfortunately, this method isn't necessarily ideal to run on the login-nodes of an HPC cluster, as it is difficult to use the shell-based terminal, and as far as know, there are no X-11 browsers. Instead, I ran it based on the "Running the Flask app via Python" section, broadcasting the data in our mongodb to a specific port, and then portforwarding from our laptops to that specific port.
 
 Here's what you need:
 
 * An installation of Python, preferably 3.4+ and with Matplotlib so that the bar plots will work.
-* A short python script webgui.py that will be used to connect to the database and run the WebGUI locally
-  * You can look at the bottom of the [WebGUI](https://materialsproject.github.io/fireworks/basesite_tutorial.html) tutorial or have a look in the `/tutorial_docs` folder for one.
-* The 'ngrok' executable obtained by signing up and logging in at the [ngrok website](https://ngrok.com/). This will be used to expose the local website to the public on a randomly generated web address.
+* A short python script webgui.py that will be used to connect to the database and run the WebGUI locally. An example is provided below:
 
-After getting everything, cd to where webgui.py run the following to start the webserver. For this command and the next one, be sure to note the process ID in case you want to kill it later (or if you're on Raspbian, you can just look at the process manager and kill it from there):
+```python
+from fireworks import LaunchPad
+from fireworks.flask_site.app import app
+
+app.lp = LaunchPad(
+    host = 'localhost',
+    port = XXXXX,
+    authsource = 'admin',
+    name = 'fireworks',
+    password = None,
+    ssl = False,
+    username = None)  # change the LaunchPad info if needed
+
+app.run(port=YYYY,debug=True)
 ```
-nohup python3.4 webgui.py &
+Your launchpad port XXXXX should match your MongoDB port, and YYYY, which is the headnode port you're running the WebGUI on, can be whatever you want but keep it handy for later on.
+
+After getting everything, login to either USC headnode 2 or 3 using the following, where YYYY is the port we specified in webgui.py, and XXXX is the port on your laptop where you'd like to access the WebGUI via a browser, like 8080:
 ```
-You can replace python3.4 with whatever version you have. Then run the following to expose the webserver via ngrok:
+ssh -L ZZZZ:localhost:YYYY username@hpc-loginX.usc.edu
 ```
-nohup ./ngrok http 4040 &
+Then place webgui.py in some directory on the headnode run the following to start the webserver
 ```
-Note that 4040 matches the 'port' argument in webgui.py. Finally run the following to get your webserver address:
+python /location/of/webgui.py &> /some/log.txt &
 ```
-curl localhost:4041/api/tunnels
-```
-What results is a block of text, but in it, you should see an ngrok.io URL; that's the one you want. For some reason, doing `localhost:4040` when your port is 4040 does not work. Perhaps it's something to do with numbering starting with 1 or 0. When you access the URL, it should be a few seconds before it takes you to webpage similar to the one shown on the image of the [FireWorks WebGUI tutorial](https://materialsproject.github.io/fireworks/basesite_tutorial.html).
+You can replace python3.4 with whatever version you have. As you can see, we incorporate writing the output to a log file so that we can have this script running in the background. Now on any browser, type `localhost:ZZZZ`, and you should see a webpage similar to the one shown on the image of the [FireWorks WebGUI tutorial](https://materialsproject.github.io/fireworks/basesite_tutorial.html).
+
+And remember that you can place any commands in the bashrc that you find repetitive, so that you don't have to run them every time you login.
+
+### Exposing the website to the public
+The one disadvantage of the above method is that you must be logged in to a terminal in order to see the webpage. If you wanted to see it even when logged out, you can follow this [deprecated page](./FW5-WebGUI_deprecated.html), but it is convoluted and, in my opinion, not worth the effort.
 
 [Previous](./FW4-Advanced-Setups.html) <code>&#124;</code> [Home](../)

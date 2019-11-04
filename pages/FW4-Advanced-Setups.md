@@ -7,7 +7,7 @@ layout: default
 
 Chances are that you're not using FireWorks just to run one workflow containing a single job. At the very least, you're looking forward to running many of these calculations at once and/or create more intricate workflows where each firework depends on information contained in the previous job. Perhaps you'd also be interested in giving your QChem jobs some ability to self correct in errors.
 
-All of these aspects will be addressed in this section, with the introduction of two python packages (also made by the Materials Project) and utilizing them to create more complex workflows. 
+All of these aspects will be addressed in this section, with the introduction of two python packages (also made by the Materials Project) and utilizing them to create more complex workflows.
 
 ### Pymatgen
 [Pymatgen](http://pymatgen.org/) is another python package that can perform input/output parsing for various quantum chemistry codes, including QChem. You can either install it via
@@ -124,7 +124,7 @@ cp -R "$TMPDIR" "$SLURM_SUBMIT_DIR"
 ```
 Then submit it using `sbatch`. Notice how this is the exact same run script as a normal QChem SLURM submission, except the `qchem` execution line is replaced with an execution of our Custodian script. For the `python` line, you may see that we have some additional input arguments; these exist so that we are able to pass the name of the input file as well as the scratch directory (``"$TMPDIR"``) to Custodian via `sys.argv`.
 
-Check back a couple of minutes later, and you should have a couple of new files aside from `qchem.out`, including `custodian.json`. This contains all of the errors Custodian picked up and the measures it took to correct it. For our case, the job should have ran into an error due to too few SCF cycles, to which Custodian should have responded by simply increasing it. You should also see an `error.1.tar.gz` which contains the input and output of the first run, which had run into an error. 
+Check back a couple of minutes later, and you should have a couple of new files aside from `qchem.out`, including `custodian.json`. This contains all of the errors Custodian picked up and the measures it took to correct it. For our case, the job should have ran into an error due to too few SCF cycles, to which Custodian should have responded by simply increasing it. You should also see an `error.1.tar.gz` which contains the input and output of the first run, which had run into an error.
 
 If you want to see a full list of errors custodian can correct for QChem, you can find it [here in the source code.](https://github.com/materialsproject/custodian/blob/master/custodian/qchem/jobs.py)
 
@@ -159,7 +159,7 @@ def NextJob(fname):
     NewPCM = None #can contain a PCM dict
     NewSolv = None #can contain a SOLV dict
     NewInput = QCInput(molecule = opt_geom, rem = NewRem, pcm = NewPCM, solvent = NewSolv)
-    NewInput.write_file("../../qchem_freq.inp") #put whatever name here, keep ../ 
+    NewInput.write_file("../../qchem_freq.inp") #put whatever name here, keep ../
 
 NextJob(fname = input1)
 ```
@@ -174,14 +174,14 @@ from fireworks.core.fworker import FWorker
 from fireworks.core.launchpad import LaunchPad
 from fireworks.user_objects.firetasks.script_task import ScriptTask
 
-#create LaunchPad object using your own info
 launchpad = LaunchPad(
-    host = 'cluster0-shard-00-0x-abcde.azure.mongodb.net', #replace
+    host = 'localhost',
+    port = 27017,#default, replace with yours
     authsource = 'admin',
-    name = 'database-name', #replace
-    password = 'mongo-password', #replace
-    ssl = True,
-    username = 'mongo-username' #replace
+    name = 'fireworks',
+    password = None,
+    ssl = False,
+    username = None
 )
 
 input1 = 'qchem_opt.inp' #replace with your qchem input file name
@@ -217,11 +217,11 @@ In this script, I would like to highlight three main differences from the previo
 
 1. We construct two separate fireworks, one containing a firetask that executes the first optimization job, and the other containing the same firetask that executes the second frequency job. These two fireworks are then wrapped into the same workflow in the last lines.
 2. In the second firework, we add a command stored in `execute_next` that executes `next_job.py`, which should automatically generate the frequency job input.
-3. Instead of the usual QChem execution line `qchem -nt 20 file.inp`, we replace it with an execution of `custodian.py`. Doing this gives the job some self- correcting ability. 
+3. Instead of the usual QChem execution line `qchem -nt 20 file.inp`, we replace it with an execution of `custodian.py`. Doing this gives the job some self- correcting ability.
 
 #### Execution
 
-Like last time, run 
+Like last time, run
 
 ```shell
 python add_multi_wf.py
@@ -233,7 +233,7 @@ which should result in a single workflow containing two fireworks being added to
 qlaunch -r rapidfire -m 24
 ```
 
-The rocket should have been launched. Keep this terminal on (if you shut it off, the  ) and open another one. If you run `lpad get_fws`, you should see a firework somewhere called 'QChem Opt' that has been set to the 'RESERVED' state. This is true if your job is in the pending state (which you can see via `squeue` or `sacct`) and the partition you submitted to is backlogged. But if you find that it's actually running, then the 'RESERVED' state is incorrect. This is due to the fact that we have to run Fireworks offline, which I talked about in the previous section. 
+The rocket should have been launched. Keep this terminal on (if you shut it off, the  ) and open another one. If you run `lpad get_fws`, you should see a firework somewhere called 'QChem Opt' that has been set to the 'RESERVED' state. This is true if your job is in the pending state (which you can see via `squeue` or `sacct`) and the partition you submitted to is backlogged. But if you find that it's actually running, then the 'RESERVED' state is incorrect. This is due to the fact that we have to run Fireworks offline, which I talked about in the previous section.
 
 To refresh and update the state, run
 
@@ -241,7 +241,7 @@ To refresh and update the state, run
 lpad recover_offline
 ```
 
-After a few seconds, check `lpad get_fws` and it should read either 'RUNNING' or 'COMPLETED' depending on if your job actually finished. If it is completed, that means the next frequency job is ready to run and as long as you kept that other terminal running `qlaunch` open, you do not have to do anything; it will be launched automatically. If you accidentally closed it, you can just run the `qlaunch` command again. 
+After a few seconds, check `lpad get_fws` and it should read either 'RUNNING' or 'COMPLETED' depending on if your job actually finished. If it is completed, that means the next frequency job is ready to run and as long as you kept that other terminal running `qlaunch` open, you do not have to do anything; it will be launched automatically. If you accidentally closed it, you can just run the `qlaunch` command again.
 
 As with the previous firework, you can run `lpad recover_offline` to refresh the state until it completes. When it does, you should have a QChem frequency output `qchem_freq.out`, thereby completing the entire workflow.
 
@@ -251,9 +251,9 @@ Congratulations again! You've just made a workflow that not only passes informat
 
 1. [Writing custom firetasks](https://materialsproject.github.io/fireworks/guide_to_writing_firetasks.html#)
 2. Using pymatgen to perform [ligand/molecule substitutions](http://pymatgen.org/pymatgen.core.structure.html?highlight=substitute#pymatgen.core.structure.Molecule.substitute)
-3. Creating your own WebGUI to track your jobs, which I will explain in the next tutorial 
+3. Creating your own WebGUI to track your jobs, which I will explain in the next tutorial
 
-And there's certainly more ways to accomplish the same objectives as the workflow we made above. For instance, instead of wrapping one giant command into each firework, you could have made tiny ScriptTasks and wrapped all of those into one firework. Or (I have not done this myself but I believe it's possible) you can pass information via [updating the spec](https://materialsproject.github.io/fireworks/guide_to_writing_firetasks.html#the-fwaction-object). 
+And there's certainly more ways to accomplish the same objectives as the workflow we made above. For instance, instead of wrapping one giant command into each firework, you could have made tiny ScriptTasks and wrapped all of those into one firework. Or (I have not done this myself but I believe it's possible) you can pass information via [updating the spec](https://materialsproject.github.io/fireworks/guide_to_writing_firetasks.html#the-fwaction-object).
 
 In essence, my tutorials are hopefully good suggestions on how to setup your jobs; but as far as adapting them to your case, that is left to your discretion
 
@@ -266,4 +266,3 @@ In essence, my tutorials are hopefully good suggestions on how to setup your job
 
 
 [Previous](./FW3-Running-Workflow.html) <code>&#124;</code> [Home](../) <code>&#124;</code> [Next](./FW5-WebGUI.html)
-

@@ -21,21 +21,17 @@ To test if FireWorks is installed correctly, restart your terminal and run the c
 
 ### MongoDB
 
-FireWorks can be used with any remote database, but the one that has worked most reliably for me thus far is [MongoDB Atlas](https://www.mongodb.com/cloud/atlas). Make an account there and select the free options and using any platform (I'm using Azure).
+Although we could use a third party server to host our MongoDB (which is what I did formerly), a better implementation is to install MongoDB on the head-node and only start it whenever one logs in. Follow [this tutorial](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat-tarball/) to install via a tarball. I believe the version you want is the most recent one, with OS being RHEL and package being TGZ. And when going through the tutorial, go through the Directory Path section that allows you to use a non-default directory since we don't have sudo permissions. Test that Mongo works by using `mongod --dbpath /your/directory/for/db/ --port XXXXX`, where the dbpath option specifies where the MongoDB database will reside, and --port is specified so that we are not using the default (27017) in case anyone else might also be using that same port on the head-node. You should see the line 'Waiting for connections on port XXXXX'. If something goes
 
-When you setting it up, you should have come across the list of IPs to whitelist (click on "Network Access" on the sidebar). For now, the only IP address we want to add is HPC's login node, which you can do by adding `10.125.0.0/0`. As a last resort, if you later come to connection problems, you can allow access from all IPs (add `0.0.0.0/0`), but this is generally not recommended because at that point, your database can be modified from anywhere.
-
-Something else you should have also come across is creating user-password combo to access the database ("Database Access" on the sidebar). You only need one, and make sure its user privileges is set to "Atlas admin." Save this username-password combo for later when we create `my_launchpad.yaml` later on.
-
-Finally, when you click "Clusters" on the sidebar, you should be able to see three different hostnames, with one being designated the 'Primary' cluster. Click on that one, and you should be able to get the full host name in this format:
+Once you have that setup, we can now start a process that runs the mongodb in the background while returning control to keyboard. In addition to the dbpath that you just made for your mongodb, create another directory where we can use Fireworks in. Then run the following, which I will break down in a moment:
 
 ```
-cluster0-shard-00-0x-abcdef.azure.mongodb.net:27017
+mongod --dbpath /your/directory/for/db --nojournal --port XXXXX >> /path/to/your/fireworks/directory/db1.txt &
 ```
+The purpose of `nojournal` is to disable the journaling feature of mongodb. This acts similarly to checkpoint files and allows for easier recovery in case the database reaches a catastrophic error. However, such checkpoint files (wiredtiger) take up gigabytes of space even for a very small database, and based on my runs I have never needed them.
 
-The `x` could be any number depending on which one was selected as primary. Everything before the colon is the hostname, and the 5-digit to the right is the port. Keep this info handy later on.
+After the port statement, we write the output to a log file in our created FireWorks directory, and we also turned it into a background process using `&`. This is so we have keyboard control returned to us while the mongodb is running in the background, and we can see the output as if we were running mongodb interactively in the log file. Once you exit all terminals, this command should be terminated, and once you login, you can restart it by running the same command.
 
-Also keep in mind that the primary cluster changes once in a while, so make sure that when you're doing a task that involves connecting to the launchpad that you're connecting to the _primary_ cluster. If you don't you may get a python exception called "Not_master" or something to that effect.
 
 
 ### Test your connection
@@ -43,23 +39,23 @@ Head back to the HPC terminal and create a file called `my_launchpad.yaml`. Put 
 
 ```yaml
 authsource: admin
-host: cluster0-shard-00-0x-abcde.azure.mongodb.net #replace
+host: localhost
 logdir: null
-name: mongo-database-name #replace
-password: mongo-password #replace
+name: fireworks
+password: null
 port: 27017 #default, but replace if different
-ssl: true
+ssl: false
 ssl_ca_certs: null
 ssl_certfile: null
 ssl_keyfile: null
 ssl_pem_passphrase: null
 strm_lvl: INFO
 user_indices: []
-username: mongo-username #replace
+username: null
 wf_user_indices: []
 ```
 
-Replace the appropriate values (host, name, username, password) as necessary for your case. Then do the following command in the same directory:
+Then do the following command in the same directory:
 
 ```shell
 lpad -l my_launchpad.yaml get_wflows

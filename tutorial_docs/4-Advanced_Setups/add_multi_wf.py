@@ -3,14 +3,14 @@ from fireworks.core.fworker import FWorker
 from fireworks.core.launchpad import LaunchPad
 from fireworks.user_objects.firetasks.script_task import ScriptTask
 
-#create LaunchPad object using your own info
 launchpad = LaunchPad(
-    host = 'cluster0-shard-00-0x-abcde.azure.mongodb.net', #replace
+    host = 'localhost',
+    port = 27017,#default, replace with yours
     authsource = 'admin',
-    name = 'database-name', #replace
-    password = 'mongo-password', #replace
-    ssl = True,
-    username = 'mongo-username' #replace
+    name = 'fireworks',
+    password = None,
+    ssl = False,
+    username = None
 )
 
 input1 = 'qchem_opt.inp' #replace with your qchem input file name
@@ -28,7 +28,7 @@ OptJobFW = Firework(firetask, name = 'qchem_opt',fw_id=1)
 
 #Construct Firework 2: Frequency
 cd_subdir = 'cd $SLURM_SUBMIT_DIR && '
-execute_next = 'python ../../next_job.py ../../' + input1[0:4] + '.out && '
+execute_next = 'python ../../next_job.py ../../' + input1[0:-4] + '.out && '
 copy_to_subdir = 'cp ../../' + input2 + ' $SLURM_SUBMIT_DIR && '
 source_qchem = 'source /usr/usc/qchem/default/qcenv.sh && '
 exec_qchem = 'python ../../custodian_QC.py ' + input2 + ' "$TMPDIR" && '

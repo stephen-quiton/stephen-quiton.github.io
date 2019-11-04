@@ -25,19 +25,19 @@ If you have already created this file from the [previous page](./FW1-PythonInst.
 
 ```yaml
 authsource: admin
-host: cluster0-shard-00-0x-abcde.azure.mongodb.net #replace
+host: localhost
 logdir: null
-name: database-name #replace
-password: mongo-password #replace
+name: fireworks
+password: null
 port: 27017 #default, but replace if different
-ssl: true
+ssl: false
 ssl_ca_certs: null
 ssl_certfile: null
 ssl_keyfile: null
 ssl_pem_passphrase: null
 strm_lvl: INFO
 user_indices: []
-username: mongo-username #replace
+username: null
 wf_user_indices: []
 ```
 
