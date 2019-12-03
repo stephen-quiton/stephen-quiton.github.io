@@ -32,7 +32,7 @@ app.run(port=YYYY,debug=True)
 ```
 Your launchpad port XXXXX should match your MongoDB port, and YYYY, which is the headnode port you're running the WebGUI on, can be whatever you want but keep it handy for later on.
 
-After getting everything, login to either USC headnode 2 or 3 using the following, where YYYY is the port we specified in webgui.py, and XXXX is the port on your laptop where you'd like to access the WebGUI via a browser, like 8080:
+After getting everything, login to either USC headnode 2 or 3 using the following, where YYYY is the port we specified in webgui.py, and ZZZZ is the port on your laptop where you'd like to access the WebGUI via a browser, like 8080:
 ```
 ssh -L ZZZZ:localhost:YYYY username@hpc-loginX.usc.edu
 ```
