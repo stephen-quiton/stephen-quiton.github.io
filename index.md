@@ -21,7 +21,7 @@ With that out of the way, [lets get started!](./pages/FW1-PythonInst.html) Or yo
 
 1. FireWorks forums
    1. [https://groups.google.com/forum/#!forum/fireworkflows](https://groups.google.com/forum/#!forum/fireworkflows)
-   2. [https://hackingmaterials.discourse.group/c/fireworks](https://hackingmaterials.discourse.group/c/fireworks) (New Site)
+   2. [https://discuss.matsci.org/c/fireworks](https://discuss.matsci.org/c/fireworks) (New Site)
 2. Source codes
    1. FireWorks: [https://github.com/materialsproject/fireworks](https://github.com/materialsproject/fireworks)
    2. Pymatgen: [https://github.com/materialsproject/pymatgen](https://github.com/materialsproject/pymatgen)
