@@ -130,41 +130,7 @@ If you want to see a full list of errors custodian can correct for QChem, you ca
 
 ## Running Multi-firework Workflows
 
-Now let's see how we can incorporate both of these features into implementing more workflows. Open up to another empty directory and place your .yaml files (`my_launchpad`, `my_qadapter`, `my_fworker`, `my_qadapter`) and a copy of the `custodian.py` we wrote. Also place a qchem input that's a geometry optimization (feel free to use my [`qchem_opt.inp`](https://github.com/squiton/squiton.github.io/blob/master/tutorial_docs/4-Advanced_Setups/qchem_opt.inp)) . What we are going to do is utilize both Custodian and Pymatgen to create a workflow that proceeds from an initial geometry optimization to a frequency job. In order to do so, not only do we need the previous files I mentioned, but also 2 more: one to handle passing information from an output to an input, and another to add the workflow to the database (which we have written before in `add_wf.py` but this time it's different).
-
-#### next_job.py
-This script is not to be executed manually by the user from the command line, but from the SLURM run script of the second job. You'll see what I mean once we take a look at its contents:
-```python
-#!/usr/bin/env python
-import sys
-sys.path.append('/path/to/your/python3.6/site-packages')
-
-from fireworks.core.firework import FWAction, Firework, FiretaskBase
-import pymatgen
-from pymatgen.io.qchem.inputs import QCInput
-from pymatgen.io.qchem.outputs import QCOutput
-from fireworks.core.launchpad import LaunchPad
-
-input1 = sys.argv[1] #previous output file name with quotes
-
-def NextJob(fname):
-    output = QCOutput(filename = fname)
-    opt_geom = output.data['molecule_from_last_geometry']
-    NewRem = {
-       "BASIS":"6-31G",
-       "GUI": "2",
-       "JOB_TYPE": "freq",
-       "METHOD":"B3LYP"
-    }
-    NewPCM = None #can contain a PCM dict
-    NewSolv = None #can contain a SOLV dict
-    NewInput = QCInput(molecule = opt_geom, rem = NewRem, pcm = NewPCM, solvent = NewSolv)
-    NewInput.write_file("../../qchem_freq.inp") #put whatever name here, keep ../
-
-NextJob(fname = input1)
-```
-
-So essentially, when this script is called by `python next_job.py "qchem_opt.out"`, it takes the optimized geometry of `qchem_opt.out` and uses that to create a new frequency input file. You'll see how this comes into play in our next required script.
+Now let's see how we can incorporate both of these features into implementing more workflows. Open up to another empty directory and place your .yaml files (`my_launchpad`, `my_qadapter`, `my_fworker`, `my_qadapter`) and a copy of the `custodian.py` we wrote. Also place a qchem input that's a geometry optimization (feel free to use my [`qchem_opt.inp`](https://github.com/squiton/squiton.github.io/blob/master/tutorial_docs/4-Advanced_Setups/qchem_opt.inp)) . What we are going to do is utilize both Custodian and Pymatgen to create a workflow that proceeds from an initial geometry optimization to a frequency job. In order to do so, not only do we need the previous files I mentioned, but also the python script to add the workflow to the database (which we have written before in `add_wf.py` but this time it's different).
 
 #### add_multi_wf.py
 
@@ -184,40 +150,44 @@ launchpad = LaunchPad(
     username = None
 )
 
-input1 = 'qchem_opt.inp' #replace with your qchem input file name
-input2 = 'qchem_freq.inp' #replace with your qchem input file name
+freqRem ={
+    'basis':'def2-svpd',
+    'job_type':'freq',
+    'exchange':'b3lyp',
+    'dft_d':'d3_bj',
+    'scf_convergence':'8',
+    'sym_ignore':'true',
+    'mem_static':'8000',
+    'mem_total':'64000',
+    #'geom_opt_max_cycles':'600',
+    #'solvent_method':'pcm'
+}
+opt_label = 'qchem_opt' #replace with your qchem file name w/o extension
+freq_label = 'qchem_freq' #replace with your qchem  file name
+
 
 #Construct Firework 1: Optimization
-cd_subdir = 'cd $SLURM_SUBMIT_DIR && '
-copy_to_subdir = 'cp ../../' + input1 + ' $SLURM_SUBMIT_DIR && '
-source_qchem = 'source /usr/usc/qchem/default/qcenv.sh && '
-exec_qchem = 'python ../../custodian_QC.py ' + input1 + ' "$TMPDIR" && '
-copy_output_maindir = 'cp ' + input1[0:-4] + '.out ../../'
-full_script = cd_subdir + copy_to_subdir + source_qchem + exec_qchem + copy_output_maindir
-firetask = ScriptTask.from_str(full_script)
-OptJobFW = Firework(firetask, name = 'qchem_opt',fw_id=1)
+t0 = PyTask(
+    func='qcfw.functions.run_QChem',
+    kwargs={'label':opt_label},
+    outputs = ['output_encoding'],
+    )
+optFW = Firework([t0], spec={'_priority': 1}, name=opt_label,fw_id=1)
 
 #Construct Firework 2: Frequency
-cd_subdir = 'cd $SLURM_SUBMIT_DIR && '
-execute_next = 'python ../../next_job.py ../../' + input1[0:-4] + '.out && '
-copy_to_subdir = 'cp ../../' + input2 + ' $SLURM_SUBMIT_DIR && '
-source_qchem = 'source /usr/usc/qchem/default/qcenv.sh && '
-exec_qchem = 'python ../../custodian_QC.py ' + input2 + ' "$TMPDIR" && '
-copy_output_maindir = 'cp ' + input2[0:-4] + '.out ../../'
-full_script = cd_subdir + execute_next + copy_to_subdir + source_qchem + exec_qchem + copy_output_maindir
-firetask = ScriptTask.from_str(full_script)
-FreqJobFW = Firework(firetask, name = 'qchem_freq',fw_id=2)
+t1 = PyTask(
+    func='qcfw.functions.run_QChem',
+    args=[freq_label],
+    kwargs={'rem':freqRem},
+    stored_data_varname='parsed_data',
+    inputs = ['output_encoding'],
+    )        
+freqFW = Firework([t1], spec={'_priority': 1}, name=freq_label,fw_id=2)
 
-#Add workflow to launchpad
-workflow = Workflow([OptJobFW, FreqJobFW],{1:[2]}, name = 'QChem-Opt2Freq')
-launchpad.add_wf(workflow)
+wf = Workflow ([optFW,freqFW],{1:[2]},name=label)
+launchpad.add_wf(wf)
 ```
-
-In this script, I would like to highlight three main differences from the previous,  similar `add_wf.py` that we wrote last time.
-
-1. We construct two separate fireworks, one containing a firetask that executes the first optimization job, and the other containing the same firetask that executes the second frequency job. These two fireworks are then wrapped into the same workflow in the last lines.
-2. In the second firework, we add a command stored in `execute_next` that executes `next_job.py`, which should automatically generate the frequency job input.
-3. Instead of the usual QChem execution line `qchem -nt 20 file.inp`, we replace it with an execution of `custodian.py`. Doing this gives the job some self- correcting ability.
+The main difference here is that we make two pytasks, wrap each of them in a firework, and wrap both of them into a workflow where the optimization job leads (and passes information) to the frequency job.
 
 #### Execution
 
@@ -245,7 +215,7 @@ After a few seconds, check `lpad get_fws` and it should read either 'RUNNING' or
 
 As with the previous firework, you can run `lpad recover_offline` to refresh the state until it completes. When it does, you should have a QChem frequency output `qchem_freq.out`, thereby completing the entire workflow.
 
-### The End (Or is it?)
+### The End (for now)
 
 Congratulations again! You've just made a workflow that not only passes information from one job to the next, but also gave them some self-correcting ability. As you can imagine, you can extend these examples to your case and you can also utilize more features of FireWorks to your advantage, some of which include:
 

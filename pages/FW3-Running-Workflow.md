@@ -13,11 +13,7 @@ Now that we have all of the files required for launch, we're almost ready to lau
 Create a python script file, name it whatever (add_wf.py), and place the following in it. Some of the syntax will be confusing at first because I didn't give you certain information beforehand, but hopefully the comments will make things clearer:
 
 ```python
-from fireworks.core.firework import Firework, Workflow
-from fireworks.core.fworker import FWorker
-from fireworks.core.launchpad import LaunchPad
-from fireworks.user_objects.firetasks.script_task import ScriptTask
-
+from fireworks import LaunchPad, Firework, Workflow, PyTask
 #create LaunchPad object using your own info
 launchpad = LaunchPad(
     host = 'localhost',
@@ -30,35 +26,18 @@ launchpad = LaunchPad(
 )
 input = 'methane.inp' #replace with your qchem input file name
 
-#These lines are shell commands that need to be executed sequentially
-cd_subdir = 'cd $SLURM_SUBMIT_DIR && '
-copy_to_subdir = 'cp ../../' +  input + ' $SLURM_SUBMIT_DIR && '
-source_qchem = 'source /usr/usc/qchem/default/qcenv.sh && '
-exec_qchem = 'qchem -nt 20 ' + input + ' && '
-copy_output_maindir = 'cp ' + input[0:-4] + '.out ../../'
-
-#Each line combined into one huge script. '&&' serves to separate commands
-full_script = cd_subdir + copy_to_subdir + source_qchem + exec_qchem + copy_output_maindir
-
-#Create a ScriptTask that takes a shell command string as its argument
-firetask = ScriptTask.from_str(full_script)   
-#use the ScriptTask object as an argument to create a Firework object
-firework= Firework(firetask, name = 'methane',fw_id=1)
-#Use the Firework object as an argument to create a Workflow object
-workflow = Workflow([firework], name = 'Methane')
-#Add Workflow object to launchpad
-launchpad.add_wf(workflow)
+label = inp[0:-4]
+t0 = PyTask(
+    func='qcfw.functions.run_QChem',
+    kwargs={'label':label},
+    outputs = ['output_encoding']
+    )
+fw0 = Firework([t0], spec={'_priority': 1}, name=label,fw_id=1)    
+wf = Workflow ([fw0],name=label)
+launchpad.add_wf(wf)
 ```
 
-So in essence, this workflow will replace the $${rocket_launch} value in the SLURM template with:
-
-```
-cd $SLURM_SUBMIT_DIR
-cp ../../methane.inp $SLURM_SUBMIT_DIR
-source /usr/usc/qchem/default/qcenv.sh
-qchem -nt 20 methane.inp
-cp methane.out ../../
-```
+So in essence, this workflow will replace the $${rocket_launch} value in the SLURM template with the execution of the run_QChem function with the input being the name of the input file without the extension
 
 Once you have `add_wf.py`, execute it. But before that, reset the launchpad:
 

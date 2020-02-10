@@ -79,17 +79,29 @@ For this step, we'll create two separate files, both of which will enable us to 
 #SBATCH --mem-per-cpu=$${mem_per_cpu}
 
 
-export QC=/usr/usc/qchem/default
-export QCAUX=$QC/qcaux
-export QCPLATFORM=LINUX_Ix86_64
-export QCRSH=ssh
-export PATH=$QC/bin:$PATH
-export QCSCRATCH=$TMPDIR
+export QC=/usr/usc/qchem/default 
+export QCAUX=$QC/qcaux 
+export QCPLATFORM=LINUX_Ix86_64 
+export QCRSH=ssh 
+export PATH=$QC/bin:$PATH 
+export QCSCRATCH=$TMPDIR 
 
-$${pre_rocket}
+ulimit -c 0
+#Uncomment all lines below if doing qlaunch rapidfire. Lines 33-36, 41
+
+#cd $${launch_dir}
+#cd ../../ 
+
+#cp $${job_name}.inp $${launch_dir}
+#$${pre_rocket}
+#cd $${launch_dir}
+#source /usr/usc/qchem/default/qcenv.sh 
+
+cp ../../$${job_name}.inp $${launch_dir}
 $${rocket_launch}
 $${post_rocket}
 cp -R "$TMPDIR" "$SLURM_SUBMIT_DIR"
+cp $${job_name}.out ../../
 
 # CommonAdapter (SLURM) completed writing Template
 
