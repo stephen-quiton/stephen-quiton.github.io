@@ -94,7 +94,7 @@ def run_QChem(label,encode=None,rem=None,pcm=None,solvent=None,more_info=None):
 ```
 This is the primary function that is to be run as its own pytask; it takes a label (which is the name of your input file without .inp), performs a Custodian-corrected qchem job, and returns the results in a json encoding. 
 
-An important note is if the user provides the encoding string, that implies that the input file for that firework has not been generated; Conversely, if you already have your input file ready (which is usually the first firework in the workflow), then there is no need to provide an encoding from which to obtain an optimized geometry. Let's take the example from the main tutorial:
+An important note is if `run_QChem` is provided with an encoding string, that implies that the input file for that firework has not been created. If that is the case, the encoding and the requested new sections (rem,pcm,solvent, etc.) are used to create the new input file. Conversely, if you already have your input file ready (which is usually the case for first firework in the workflow), then there is no need to provide an encoding from which to obtain an optimized geometry. Let's take the example from the main tutorial:
 
 
 ```python
@@ -125,5 +125,12 @@ t1 = PyTask(
     )        
 freqFW = Firework([t1], spec={'_priority': 1}, name=freq_label,fw_id=2)
 ```
-In 
+For the optimization firework, the only argument we provide is the label; therefore, encoding remains `None`, and the computation runs on the input file with the label. Notice that store the output of `run_QChem`, which is the encoding resulting from the optimization job, in a MongoDB database key called 'output_encoding,' which is also pushed to the child frequency firework. If you have a look at both fireworks on the webgui, its under the 'spec' key. 
+
+Now, the frequency firework can use the encoding in 'output_encoding' as an input to its own `run_QChem`, which means a frequency input file will be generated before the qchem calculation. The way to do this is to take advantage of PyTask's `inputs` argument, which is appended onto the args list. Any remaining arguments are provided in kwargs. The arguments to the PyTask function are provided like so:
+
+```python
+func(*args,**kwargs)
+```
+So freq_label is provided first, followed by the output encoding, and  finally rem is set to freqRem, which is compatible with the arguments order for `run_QChem`
 [Home](../)
