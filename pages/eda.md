@@ -16,6 +16,7 @@ pip3 install git+https://github.com/squiton/pymatgen.git --user -upgrade
 ### Parsing EDA data
 
 Coming soon!
+
 ### Generating EDA input files
 
 Coming kinda soon!
