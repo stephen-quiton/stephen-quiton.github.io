@@ -62,4 +62,7 @@ lpad -l my_launchpad.yaml get_wflows
 ```
 If it returns an empty array (which it should because we haven't added any workflows) rather than returning an error, then your connection is working.
 
+### QCFW Functions
+In order for my included scripts to work, you must place the functions.py from this repository to `/.local/python3.6/site-packages/qcfw`. The "qcfw" name must be exact. Or you can simply install via:
+
 [Home](../) <code>&#124;</code> [Next](./FW2-Required-Files.html)
