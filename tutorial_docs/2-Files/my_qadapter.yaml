@@ -10,7 +10,7 @@ walltime: '12:00:00'
 queue: null #change to your partition
 account: null
 job_name: null
-logdir: /auto/rcf-40/quiton/fw_logs/
+logdir: /path/to/where/you/want/your/fw_logs/ #change, make sure directory exists
 pre_rocket: null
 post_rocket: null
 

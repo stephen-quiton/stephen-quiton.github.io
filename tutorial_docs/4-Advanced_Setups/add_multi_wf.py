@@ -1,7 +1,4 @@
-from fireworks.core.firework import Firework, Workflow
-from fireworks.core.fworker import FWorker
-from fireworks.core.launchpad import LaunchPad
-from fireworks.user_objects.firetasks.script_task import ScriptTask
+from fireworks import Firework, Workflow, PyTask, FWorker, LaunchPad
 
 launchpad = LaunchPad(
     host = 'localhost',
@@ -13,30 +10,36 @@ launchpad = LaunchPad(
     username = None
 )
 
-input1 = 'qchem_opt.inp' #replace with your qchem input file name
-input2 = 'qchem_freq.inp' #replace with your qchem input file name
+freqRem ={
+    'basis':'6-31G',
+    'job_type':'freq',
+    'exchange':'b3lyp',
+    'scf_convergence':'8',
+    'sym_ignore':'true',
+}
+
+opt_label = 'qchem_opt' #replace with your qchem file name w/o extension
+freq_label = 'qchem_freq' #replace with name of frequency file
+label = 'qchem' #name of the workflow
+
 
 #Construct Firework 1: Optimization
-cd_subdir = 'cd $SLURM_SUBMIT_DIR && '
-copy_to_subdir = 'cp ../../' + input1 + ' $SLURM_SUBMIT_DIR && '
-source_qchem = 'source /usr/usc/qchem/default/qcenv.sh && '
-exec_qchem = 'python ../../custodian_QC.py ' + input1 + ' "$TMPDIR" && '
-copy_output_maindir = 'cp ' + input1[0:-4] + '.out ../../'
-full_script = cd_subdir + copy_to_subdir + source_qchem + exec_qchem + copy_output_maindir
-firetask = ScriptTask.from_str(full_script)
-OptJobFW = Firework(firetask, name = 'qchem_opt',fw_id=1)
+t0 = PyTask(
+    func='qcfw.functions.run_QChem',
+    kwargs={'label':opt_label},
+    outputs = ['output_encoding'],
+    )
+optFW = Firework([t0], spec={'_priority': 1}, name=opt_label,fw_id=1)
 
 #Construct Firework 2: Frequency
-cd_subdir = 'cd $SLURM_SUBMIT_DIR && '
-execute_next = 'python ../../next_job.py ../../' + input1[0:-4] + '.out && '
-copy_to_subdir = 'cp ../../' + input2 + ' $SLURM_SUBMIT_DIR && '
-source_qchem = 'source /usr/usc/qchem/default/qcenv.sh && '
-exec_qchem = 'python ../../custodian_QC.py ' + input2 + ' "$TMPDIR" && '
-copy_output_maindir = 'cp ' + input2[0:-4] + '.out ../../'
-full_script = cd_subdir + execute_next + copy_to_subdir + source_qchem + exec_qchem + copy_output_maindir
-firetask = ScriptTask.from_str(full_script)
-FreqJobFW = Firework(firetask, name = 'qchem_freq',fw_id=2)
+t1 = PyTask(
+    func='qcfw.functions.run_QChem',
+    args=[freq_label],
+    kwargs={'rem':freqRem},
+    stored_data_varname='parsed_data',
+    inputs = ['output_encoding'],
+    )        
+freqFW = Firework([t1], spec={'_priority': 1}, name=freq_label,fw_id=2)
 
-#Add workflow to launchpad
-workflow = Workflow([OptJobFW, FreqJobFW],{1:[2]}, name = 'QChem-Opt2Freq')
-launchpad.add_wf(workflow)
+wf = Workflow ([optFW,freqFW],{1:[2]},name=label)
+launchpad.add_wf(wf)

@@ -65,4 +65,8 @@ If it returns an empty array (which it should because we haven't added any workf
 ### QCFW Functions
 In order for my included scripts to work, you must place the functions.py from [this repository](https://github.com/squiton/qcfw) to `/.local/python3.6/site-packages/qcfw`. The "qcfw" name must be exact. Or you can simply install via:
 
+```
+link coming soon
+```
+
 [Home](../) <code>&#124;</code> [Next](./FW2-Required-Files.html)
