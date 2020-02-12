@@ -26,7 +26,7 @@ launchpad = LaunchPad(
 )
 input = 'methane.inp' #replace with your qchem input file name
 
-label = inp[0:-4]
+label = input[0:-4]
 t0 = PyTask(
     func='qcfw.functions.run_QChem',
     kwargs={'label':label},

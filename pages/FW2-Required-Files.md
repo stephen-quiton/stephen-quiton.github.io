@@ -14,7 +14,7 @@ Open up to an empty directory (or the same one your `my_launchpad.yaml` is locat
 1. my_launchpad.yaml
 2. my_fworker.yaml
 3. my_qadapter.yaml
-4. SLURM_Template.txt
+4. SLURM_template.txt
 5. methane.inp
 
 
@@ -53,7 +53,7 @@ query: '{}'
 
 
 
-#### SLURM_Template.txt and my_qadapter.yaml
+#### SLURM_template.txt and my_qadapter.yaml
 For this step, we'll create two separate files, both of which will enable us to make our jobs work with SLURM's queuing system. It's necessary if we want to launch jobs via `qlaunch`, not just `rlaunch` (the normal way to launch FireWorks). First, we create `SLURM_template.txt` which looks like this:
 
 ```shell
@@ -87,16 +87,6 @@ export PATH=$QC/bin:$PATH
 export QCSCRATCH=$TMPDIR 
 
 ulimit -c 0
-#Uncomment all lines below if doing qlaunch rapidfire. Lines 33-36, 41
-
-#cd $${launch_dir}
-#cd ../../ 
-
-#cp $${job_name}.inp $${launch_dir}
-#$${pre_rocket}
-#cd $${launch_dir}
-#source /usr/usc/qchem/default/qcenv.sh 
-
 cp ../../$${job_name}.inp $${launch_dir}
 $${rocket_launch}
 $${post_rocket}
@@ -122,7 +112,7 @@ walltime: '12:00:00'
 queue: null #change to your partition
 account: null
 job_name: null
-logdir: /path/to/where/you/want/your/fw_logs/ #change
+logdir: /path/to/where/you/want/your/fw_logs/ #change, make sure directory exists
 pre_rocket: null
 post_rocket: null
 

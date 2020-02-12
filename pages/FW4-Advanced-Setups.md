@@ -135,10 +135,7 @@ Now let's see how we can incorporate both of these features into implementing mo
 #### add_multi_wf.py
 
 ```python
-from fireworks.core.firework import Firework, Workflow
-from fireworks.core.fworker import FWorker
-from fireworks.core.launchpad import LaunchPad
-from fireworks.user_objects.firetasks.script_task import ScriptTask
+from fireworks import Firework, Workflow, PyTask, FWorker, LaunchPad
 
 launchpad = LaunchPad(
     host = 'localhost',
@@ -151,19 +148,16 @@ launchpad = LaunchPad(
 )
 
 freqRem ={
-    'basis':'def2-svpd',
+    'basis':'6-31G',
     'job_type':'freq',
     'exchange':'b3lyp',
-    'dft_d':'d3_bj',
     'scf_convergence':'8',
     'sym_ignore':'true',
-    'mem_static':'8000',
-    'mem_total':'64000',
-    #'geom_opt_max_cycles':'600',
-    #'solvent_method':'pcm'
 }
+
 opt_label = 'qchem_opt' #replace with your qchem file name w/o extension
-freq_label = 'qchem_freq' #replace with your qchem  file name
+freq_label = 'qchem_freq' #replace with name of frequency file
+label = 'qchem' #name of the workflow
 
 
 #Construct Firework 1: Optimization
