@@ -6,7 +6,7 @@ layout: default
 
 [Home](../)
 
-These are functions that allow me to run QChem while taking advantage of the full capabilities of FireWorks, namely, uploading and passing important information to the database. Here I go through a function-by-function walkthrough of functions.py.
+These are functions that allow me to run QChem while taking advantage of the full capabilities of FireWorks, namely, uploading and passing important information to the database. Here I go through a function-by-function walkthrough of functions.py, which was inspired by how [Jacob Boes implemented pytasks for Quantum Espresso](https://jboes.github.io/2017/running-fireworks-scripts.html).
 
 ```python
 import json,multiprocessing
