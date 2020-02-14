@@ -125,7 +125,7 @@ t1 = PyTask(
     )        
 freqFW = Firework([t1], spec={'_priority': 1}, name=freq_label,fw_id=2)
 ```
-For the optimization firework, the only argument we provide is the label; therefore, encoding remains `None`, and the computation runs on the input file with the label. Notice that store the output of `run_QChem`, which is the encoding resulting from the optimization job, in a MongoDB database key called 'output_encoding,' which is also pushed to the child frequency firework. If you have a look at both fireworks on the webgui, its under the 'spec' key. 
+For the optimization firework, the only argument we provide is the label; therefore, encoding remains `None`, and the computation runs on the input file with the label. Notice that we store the output of `run_QChem`, which is the encoding resulting from the optimization job, in a MongoDB database key called 'output_encoding,' which is also pushed to the child frequency firework. If you have a look at both fireworks on the webgui, its under the 'spec' key. 
 
 Now, the frequency firework can use the encoding in 'output_encoding' as an input to its own `run_QChem`, which means a frequency input file will be generated before the qchem calculation. The way to do this is to take advantage of PyTask's `inputs` argument, which is appended onto the args list. Any remaining arguments are provided in kwargs. The arguments to the PyTask function are provided like so:
 
