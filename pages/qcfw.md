@@ -132,6 +132,6 @@ Now, the frequency firework can use the encoding in 'output_encoding' as an inpu
 ```python
 func(*args,**kwargs)
 ```
-So freq_label is provided first, followed by the output encoding, and  finally rem is set to freqRem, which is compatible with the order of the arguments in `run_QChem`
+So freq_label is provided first, followed by the output encoding, and finally rem is set to freqRem, which is compatible with the order of the arguments in `run_QChem`
 
 [Home](../)
