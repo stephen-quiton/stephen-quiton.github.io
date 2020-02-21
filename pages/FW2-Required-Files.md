@@ -109,7 +109,7 @@ nodes: 1
 mem_per_cpu: 2GB
 ntasks_per_node: 20
 walltime: '12:00:00'
-queue: null #change to your partition
+queue: null #change to your partition, leave null if main/quick
 account: null
 job_name: null
 logdir: /path/to/where/you/want/your/fw_logs/ #change, make sure directory exists
