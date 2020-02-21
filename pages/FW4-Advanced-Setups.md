@@ -20,7 +20,7 @@ or:
 pip install pymatgen --user
 ```
 
-Once you've done it, open up to an empty directory and place the following python script (transfer_geom.py) along with a sample qchem output file qchem.out (preferably a successful geometry optimization) for a demonstration of parsing outputs and generating inputs:
+Once you've done it, open up to an empty directory and place the following python script (transfer_geom.py) along with a sample qchem output file qchem.out (must be a geometry optimization, otherwise you will encounter a key error) for a demonstration of parsing outputs and generating inputs:
 
 ```python
 from pymatgen.io.qchem.inputs import QCInput
