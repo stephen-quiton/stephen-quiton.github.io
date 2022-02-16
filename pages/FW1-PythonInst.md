@@ -11,11 +11,11 @@ layout: default
 Installing python packages on HPC is [not necessarily the same](https://hpcc.usc.edu/support/documentation/python/) as if you were to do the same with your own machine. This is because the command `pip` usually goes to a directory guarded by sudo permissions, which we don't have. Thus, the commands we need to use are:
 
 ```shell
-source /usr/usc/python/3.6.0/setup.sh
+module load python
 pip install FireWorks --user
 ```
 
-I highly recommend you place the first line in your `~/.bashrc` so python is setup when you enter the shell. With the `--user` option, the FireWorks python package should be installed to `~/.local`. You can keep .local where it is if you'd like, but I've decided to make `~/.local` a soft-link to a directory with more quota space so I don't have to be concerned with storage.
+I highly recommend you place the first line in your `~/.bashrc` so python is setup when you enter the shell. With the `--user` option, the FireWorks python package should be installed to `~/.local`. You can keep .local where it is if you'd like, but I've decided to make `~/.local` a soft-link to a directory with more quota space so I don't have to be concerned with storage. Additionally, I highly recommend using Anaconda to keep easy track of python packages that will be installed. You can do that by adding `module load anaconda3` and following [USC CARC's instructions](https://www.carc.usc.edu/user-information/user-guides/software-and-programming/anaconda)
 
 To test if FireWorks is installed correctly, restart your terminal and run the command `lpad`. If it returns with a list of options to use with `lpad`, you're ready to go
 
